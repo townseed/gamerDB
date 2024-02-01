@@ -30,17 +30,18 @@ public class DatabaseConnectionService {
 	public boolean connect(String user, String pass) {
 		//done: Task 1
 		//BUILD YOUR CONNECTION STRING HERE USING THE SAMPLE URL 
-//		String password = "I l0ve cat$";
-//		String serverName = "golem.csse.rose-hulman.edu";
-//		String dbName = "SodaBaseTownseed";
-//		String username = "Townseed";
+		String password = "I l0ve cat$";
+		String serverName = "golem.csse.rose-hulman.edu";
+		String dbName = "s1g7";
+		String username = "Townseed";
 				
 		String fullURL = SampleURL.replace("${dbServer}", this.serverName)
 				.replace("${dbName}", this.databaseName)
 				.replace("${user}", user)
 				.replace("${pass}", pass) + ";encrypt=false;trustServerCertificate=true;";
+		final String SampleURL = "jdbc:sqlserver://golem.csse.rose-hulman.edu;databaseName=s1g7;user=soiefeam;password=~;encrypt=false;";
 		try {
-			this.connection = DriverManager.getConnection(fullURL);			
+			this.connection = DriverManager.getConnection(SampleURL);			
 			System.out.println("connection success.");
 			return true;
 		}

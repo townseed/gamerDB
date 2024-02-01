@@ -38,7 +38,7 @@ public class GamerService {
 	}
 	
 	public boolean insertOneGamer(String username, String name, String email, String dob) {
-		String query = "{? = call [dbo].[InsertGamer](?,?,?,?)}";
+		String query = "{? = call [dbo].[insert_Gamer](?,?,?,?)}";
 		int returnedVal = -1;
 		
 		try {
