@@ -168,9 +168,9 @@ public class Frame extends JFrame {
 		this.goButton.addActionListener(new GoListener(this.dropDown, this.gamerService, this.displayTable, tableModel));
 		//temp button listener
 		this.addButton.addActionListener(new AddListener(gamerService));
-		this.getgameButton.addActionListener(new AddListener(gamerService));
-		this.getgamepieceButton.addActionListener(new AddListener(gamerService));
-		this.getmatchButton.addActionListener(new AddListener(gamerService));
+		this.getgameButton.addActionListener(new GetGameListener(gamerService));
+		this.getgamepieceButton.addActionListener(new GetGamePieceListener(gamerService));
+		this.getmatchButton.addActionListener(new GetMatchListener(gamerService));
 	}
 	
 	public void run() {

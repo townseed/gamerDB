@@ -50,6 +50,12 @@ public class GamerService {
 			statement.setString(5, dob);
 			statement.execute();
 			returnedVal = statement.getInt(1);
+			if(returnedVal == -1 || returnedVal == 0) {
+				System.out.println("Add completed successfully!");
+			}
+			else {
+				System.out.println("Add has experienced an unidentified error. Please attempt to rerun the program.");
+			}
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -106,13 +112,14 @@ public class GamerService {
 		ArrayList<String> gamerNames = new ArrayList<String>();
 		try {
 			Statement stmt = this.dbService.getConnection().createStatement();
-			String query = "call getAllGameNames\n"; 
+			String query = "exec getAllGameNames\n"; 
 			// later replace it with sp.
 			ResultSet rs = stmt.executeQuery(query);
 			int nameIndex = rs.findColumn("name");
 			while (rs.next()) {
 				gamerNames.add(rs.getString(nameIndex));
 			}
+			System.out.println(gamerNames);
 			return gamerNames;
 		}
 		catch (SQLException ex) {
@@ -125,13 +132,14 @@ public class GamerService {
 		ArrayList<String> gamerNames = new ArrayList<String>();
 		try {
 			Statement stmt = this.dbService.getConnection().createStatement();
-			String query = "call getAllGamePieces\n"; 
+			String query = "exec getAllGamePieces\n"; 
 			// later replace it with sp.
 			ResultSet rs = stmt.executeQuery(query);
 			int nameIndex = rs.findColumn("name");
 			while (rs.next()) {
 				gamerNames.add(rs.getString(nameIndex));
 			}
+			System.out.println(gamerNames);
 			return gamerNames;
 		}
 		catch (SQLException ex) {
@@ -144,7 +152,7 @@ public class GamerService {
 		ArrayList<String> gamerNames = new ArrayList<String>();
 		try {
 			Statement stmt = this.dbService.getConnection().createStatement();
-			String query = "call getAllGamers\n"; 
+			String query = "exec getAllGamers\n"; 
 			// later replace it with sp.
 			ResultSet rs = stmt.executeQuery(query);
 			int nameIndex = rs.findColumn("name");
