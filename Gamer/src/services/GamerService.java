@@ -21,7 +21,7 @@ public class GamerService {
 		ArrayList<String> gamerNames = new ArrayList<String>();
 		try {
 			Statement stmt = this.dbService.getConnection().createStatement();
-			String query = "SELECT [name] \nFROM [gamers]\n"; 
+			String query = "call getAllGamers\n"; 
 			// later replace it with sp.
 			ResultSet rs = stmt.executeQuery(query);
 			int nameIndex = rs.findColumn("name");
@@ -101,6 +101,63 @@ public class GamerService {
 			return new ArrayList<FetchGamers>();
 		}
 
+	}
+	public ArrayList<String> getAllGameNames(){
+		ArrayList<String> gamerNames = new ArrayList<String>();
+		try {
+			Statement stmt = this.dbService.getConnection().createStatement();
+			String query = "call getAllGameNames\n"; 
+			// later replace it with sp.
+			ResultSet rs = stmt.executeQuery(query);
+			int nameIndex = rs.findColumn("name");
+			while (rs.next()) {
+				gamerNames.add(rs.getString(nameIndex));
+			}
+			return gamerNames;
+		}
+		catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "Failed to retrieve gamer names.");
+			ex.printStackTrace();
+			return new ArrayList<String>();
+		}
+	}
+	public ArrayList<String> getAllGamePieces(){
+		ArrayList<String> gamerNames = new ArrayList<String>();
+		try {
+			Statement stmt = this.dbService.getConnection().createStatement();
+			String query = "call getAllGamePieces\n"; 
+			// later replace it with sp.
+			ResultSet rs = stmt.executeQuery(query);
+			int nameIndex = rs.findColumn("name");
+			while (rs.next()) {
+				gamerNames.add(rs.getString(nameIndex));
+			}
+			return gamerNames;
+		}
+		catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "Failed to retrieve gamer names.");
+			ex.printStackTrace();
+			return new ArrayList<String>();
+		}
+	}
+	public ArrayList<String> getAllMatchRecords(){
+		ArrayList<String> gamerNames = new ArrayList<String>();
+		try {
+			Statement stmt = this.dbService.getConnection().createStatement();
+			String query = "call getAllGamers\n"; 
+			// later replace it with sp.
+			ResultSet rs = stmt.executeQuery(query);
+			int nameIndex = rs.findColumn("name");
+			while (rs.next()) {
+				gamerNames.add(rs.getString(nameIndex));
+			}
+			return gamerNames;
+		}
+		catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "Failed to retrieve gamer names.");
+			ex.printStackTrace();
+			return new ArrayList<String>();
+		}
 	}
 	
 }

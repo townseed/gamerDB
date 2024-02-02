@@ -29,6 +29,9 @@ public class Frame extends JFrame {
 	private JButton clearButton;
 	//temp button
 	private JButton addButton;
+	private JButton getgameButton;
+	private JButton getgamepieceButton;
+	private JButton getmatchButton;
 	private JTable displayTable;
 	private JComboBox<String> dropDown;
 	private GamerService gamerService;
@@ -43,6 +46,9 @@ public class Frame extends JFrame {
 		
 		//temp add new button
 		this.addButton = new JButton("Add Gamer");
+		this.getgameButton = new JButton("Get All Game Names");
+		this.getgamepieceButton = new JButton("Get All Game Pieces");
+		this.getmatchButton = new JButton("Get All Matches Today");
 		
 		this.displayTable = new JTable(tableModel);
 		this.dropDown = new JComboBox<String>(queryOpts);
@@ -63,12 +69,57 @@ public class Frame extends JFrame {
 		this.buttonPanel.add(this.goButton);
 		//add temp button
 		this.buttonPanel.add(this.addButton);
+		this.buttonPanel.add(this.getgameButton);
+		this.buttonPanel.add(this.getgamepieceButton);
+		this.buttonPanel.add(this.getmatchButton);
 		
 		class AddListener implements ActionListener{
 			private GamerService gamerService;
 			private JTable table;
 			private DefaultTableModel tableModel;
 			public AddListener(GamerService gamerS) {
+				this.gamerService = gamerS;
+			}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// add a new gamer (pre-defined, eventually should take from textboxes)
+				this.gamerService.insertOneGamer("unique", "Cool Name", "James.Jones@domain.com", "01-01-1999");
+			}
+			
+		}
+		class GetGameListener implements ActionListener{
+			private GamerService gamerService;
+			private JTable table;
+			private DefaultTableModel tableModel;
+			public GetGameListener(GamerService gamerS) {
+				this.gamerService = gamerS;
+			}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// add a new gamer (pre-defined, eventually should take from textboxes)
+				this.gamerService.getAllGameNames();
+			}
+			
+		}
+		class GetGamePieceListener implements ActionListener{
+			private GamerService gamerService;
+			private JTable table;
+			private DefaultTableModel tableModel;
+			public GetGamePieceListener(GamerService gamerS) {
+				this.gamerService = gamerS;
+			}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// add a new gamer (pre-defined, eventually should take from textboxes)
+				this.gamerService.getAllGamePieces();
+			}
+			
+		}
+		class GetMatchListener implements ActionListener{
+			private GamerService gamerService;
+			private JTable table;
+			private DefaultTableModel tableModel;
+			public GetMatchListener(GamerService gamerS) {
 				this.gamerService = gamerS;
 			}
 			@Override
@@ -117,6 +168,9 @@ public class Frame extends JFrame {
 		this.goButton.addActionListener(new GoListener(this.dropDown, this.gamerService, this.displayTable, tableModel));
 		//temp button listener
 		this.addButton.addActionListener(new AddListener(gamerService));
+		this.getgameButton.addActionListener(new AddListener(gamerService));
+		this.getgamepieceButton.addActionListener(new AddListener(gamerService));
+		this.getmatchButton.addActionListener(new AddListener(gamerService));
 	}
 	
 	public void run() {
