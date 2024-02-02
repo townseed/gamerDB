@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,6 +18,7 @@ import javax.swing.table.TableColumn;
 import services.DatabaseConnectionService;
 import services.GamerService;
 import services.FetchGamers;
+import services.InsertGame_GamepieceService;
 
 public class Frame extends JFrame {
 	public static final int WIDTH = 800;
@@ -32,9 +34,11 @@ public class Frame extends JFrame {
 	private JButton getgameButton;
 	private JButton getgamepieceButton;
 	private JButton getmatchButton;
+	private JButton addGamePieceButton;
 	private JTable displayTable;
 	private JComboBox<String> dropDown;
 	private GamerService gamerService;
+	private InsertGame_GamepieceService insertGamepieceService;
 	private DatabaseConnectionService connection;
 	private JScrollPane tablePane;
 
@@ -49,12 +53,24 @@ public class Frame extends JFrame {
 		this.getgameButton = new JButton("Get All Game Names");
 		this.getgamepieceButton = new JButton("Get All Game Pieces");
 		this.getmatchButton = new JButton("Get All Matches Today");
+		this.addGamePieceButton = new JButton("Insert One Gamepiece");
+		
 		
 		this.displayTable = new JTable(tableModel);
 		this.dropDown = new JComboBox<String>(queryOpts);
-		this.connection = new DatabaseConnectionService("golem.csse.rose-hulman.edu", "s1g7");
+		this.connection = new DatabaseConnectionService("golem.csse.rose-hulman.edu", 
+				"s1g7");
+//		*
+//		*
+//		*
+//		*
+//		*
+//		*
+//		* Insert Credential here
 		this.connection.connect("","");
 		this.gamerService = new GamerService(this.connection);
+		this.insertGamepieceService = new InsertGame_GamepieceService(connection);
+		
 //		this.tablePane = new JScrollPane(this.displayTable);
 //		this.displayTable.setFillsViewportHeight(true);
 //		this.add(tablePane, BorderLayout.CENTER);
@@ -72,6 +88,7 @@ public class Frame extends JFrame {
 		this.buttonPanel.add(this.getgameButton);
 		this.buttonPanel.add(this.getgamepieceButton);
 		this.buttonPanel.add(this.getmatchButton);
+		this.buttonPanel.add(this.addGamePieceButton);
 		
 		class AddListener implements ActionListener{
 			private GamerService gamerService;
@@ -130,6 +147,25 @@ public class Frame extends JFrame {
 			
 		}
 		
+		class AddGamePiecesListener implements ActionListener{
+			private InsertGame_GamepieceService InsertGame_GamepieceService;
+
+			public AddGamePiecesListener(InsertGame_GamepieceService service) {
+				this.InsertGame_GamepieceService = service;
+			}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// add a new gamer (pre-defined, eventually should take from textboxes)
+				Scanner in = new Scanner(System.in);
+				System.out.println("Input new Gamepiece Name");
+				String gamepieceName = in.next();
+				in.close();
+				
+				this.InsertGame_GamepieceService.
+				insertOneGamePiece(gamepieceName);
+			}
+		}
+		
 		this.setResizable(true);
 		this.add(buttonPanel, BorderLayout.CENTER);
 		class GoListener implements ActionListener{
@@ -171,6 +207,7 @@ public class Frame extends JFrame {
 		this.getgameButton.addActionListener(new GetGameListener(gamerService));
 		this.getgamepieceButton.addActionListener(new GetGamePieceListener(gamerService));
 		this.getmatchButton.addActionListener(new GetMatchListener(gamerService));
+		this.addGamePieceButton.addActionListener(new AddGamePiecesListener(insertGamepieceService));
 	}
 	
 	public void run() {
