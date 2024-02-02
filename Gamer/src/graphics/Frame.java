@@ -159,7 +159,6 @@ public class Frame extends JFrame {
 				Scanner in = new Scanner(System.in);
 				System.out.println("Input new Gamepiece Name");
 				String gamepieceName = in.next();
-				in.close();
 				
 				this.InsertGame_GamepieceService.
 				insertOneGamePiece(gamepieceName);
