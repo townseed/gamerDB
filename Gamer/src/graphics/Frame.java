@@ -125,7 +125,7 @@ public class Frame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
-				this.gamerService.getAllMatchRecords("2/1/24", "Basketball", "1-0");
+				this.gamerService.getAllMatchRecords("1/9/2023", "MTG", "w");
 			}
 			
 		}
