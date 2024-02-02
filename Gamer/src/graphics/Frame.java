@@ -83,7 +83,7 @@ public class Frame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
-				this.gamerService.insertOneGamer("unique", "Cool Name", "James.Jones@domain.com", "01-01-1999");
+				this.gamerService.insertOneGamer("uniqued", "Cool Name", "James.Jones@domain.com", "01-01-1999");
 			}
 			
 		}
@@ -125,7 +125,7 @@ public class Frame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
-				this.gamerService.insertOneGamer("unique", "Cool Name", "James.Jones@domain.com", "01-01-1999");
+				this.gamerService.getAllMatchRecords("2/1/24", "Basketball", "1-0");
 			}
 			
 		}

@@ -148,17 +148,18 @@ public class GamerService {
 			return new ArrayList<String>();
 		}
 	}
-	public ArrayList<String> getAllMatchRecords(){
+	public ArrayList<String> getAllMatchRecords(String date, String game, String result){
 		ArrayList<String> gamerNames = new ArrayList<String>();
 		try {
 			Statement stmt = this.dbService.getConnection().createStatement();
-			String query = "exec getAllGamers\n"; 
+			String query = "exec getAllMatchRecords '" + date + "', '" + game + "', '" + result + "'\n"; 
 			// later replace it with sp.
 			ResultSet rs = stmt.executeQuery(query);
-			int nameIndex = rs.findColumn("name");
+			int nameIndex = rs.findColumn("ID");
 			while (rs.next()) {
 				gamerNames.add(rs.getString(nameIndex));
 			}
+			System.out.print(gamerNames);
 			return gamerNames;
 		}
 		catch (SQLException ex) {
