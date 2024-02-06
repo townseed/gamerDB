@@ -67,7 +67,7 @@ public class Frame extends JFrame {
 //		*
 //		*
 //		* Insert Credential here
-		this.connection.connect("","");
+		this.connection.connect("yangw2","IUUser");
 		this.gamerService = new GamerService(this.connection);
 		this.insertGamepieceService = new InsertGame_GamepieceService(connection);
 		
