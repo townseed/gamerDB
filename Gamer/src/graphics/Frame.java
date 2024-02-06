@@ -1,17 +1,21 @@
 package graphics;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -41,7 +45,12 @@ public class Frame extends JFrame {
 	private InsertGame_GamepieceService insertGamepieceService;
 	private DatabaseConnectionService connection;
 	private JScrollPane tablePane;
+	private JLabel label1;
+	private JTextField text1;
+	private JLabel spanLabel1 = new JLabel("-                                                                                                                                                                                                                                                    -");
+	private JLabel spanLabel2 = new JLabel("-                                                                                                                                                                                                                                                    -");
 
+	
 	public Frame() {
 		tableModel = new DefaultTableModel();
 		this.buttonPanel = new JPanel();
@@ -54,7 +63,9 @@ public class Frame extends JFrame {
 		this.getgamepieceButton = new JButton("Get All Game Pieces");
 		this.getmatchButton = new JButton("Get All Matches Today");
 		this.addGamePieceButton = new JButton("Insert One Gamepiece");
-		
+		label1 = new JLabel("Test");
+		label1.setText("Label Text");
+		this.text1 = new JTextField(72);
 		
 		this.displayTable = new JTable(tableModel);
 		this.dropDown = new JComboBox<String>(queryOpts);
@@ -82,6 +93,8 @@ public class Frame extends JFrame {
 		this.setTitle("Gamer Database Access");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(Frame.WIDTH, Frame.HEIGHT);
+		// https://stackoverflow.com/questions/32467246/how-to-start-something-on-a-new-line-in-java-swing
+        add(buttonPanel, BorderLayout.CENTER);
 		this.buttonPanel.add(this.goButton);
 		//add temp button
 		this.buttonPanel.add(this.addButton);
@@ -89,6 +102,12 @@ public class Frame extends JFrame {
 		this.buttonPanel.add(this.getgamepieceButton);
 		this.buttonPanel.add(this.getmatchButton);
 		this.buttonPanel.add(this.addGamePieceButton);
+		this.buttonPanel.add(spanLabel1);
+		this.buttonPanel.add(label1);
+		text1.setHorizontalAlignment(JTextField.CENTER);
+		this.buttonPanel.add(this.text1);
+		this.buttonPanel.add(spanLabel2);
+		// https://stackoverflow.com/questions/15507639/how-do-i-center-a-jtextfield
 		
 		class AddListener implements ActionListener{
 			private GamerService gamerService;
