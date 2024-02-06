@@ -177,6 +177,7 @@ public class Frame extends JFrame {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				Scanner in = new Scanner(System.in);
 				System.out.println("Input new Gamepiece Name");
+				text1.setText("Input new Gamepiece Name");
 				String gamepieceName = in.next();
 				
 				this.InsertGame_GamepieceService.
