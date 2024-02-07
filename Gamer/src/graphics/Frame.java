@@ -24,6 +24,7 @@ import services.DatabaseConnectionService;
 import services.GamerService;
 import services.FetchGamers;
 import services.InsertGame_GamepieceService;
+import services.InsertGamerService;
 
 public class Frame extends JFrame {
 	public static final int WIDTH = 800;
@@ -45,6 +46,7 @@ public class Frame extends JFrame {
 	private JComboBox<String> dropDown;
 	private GamerService gamerService;
 	private InsertGame_GamepieceService insertGamepieceService;
+	private InsertGamerService insertGamerService;
 	private DatabaseConnectionService connection;
 	private JScrollPane tablePane;
 	private JLabel label1;
@@ -61,14 +63,14 @@ public class Frame extends JFrame {
 	public Frame() {
 		tableModel = new DefaultTableModel();
 		this.buttonPanel = new JPanel();
-		this.goButton = new JButton("get gamer");
+		this.goButton = new JButton("List All Gamers");
 		
 		//temp add new button
-		this.addButton = new JButton("Add Gamer");
+		this.addButton = new JButton("Insert a Custom Gamer");
 		this.getgameButton = new JButton("Get All Game Names");
 		this.getgamepieceButton = new JButton("Get All Game Pieces");
-		this.getmatchButton = new JButton("Get All Matches Today");
-		this.addGamePieceButton = new JButton("Insert One Gamepiece");
+		this.getmatchButton = new JButton("Get All Matches");
+		this.addGamePieceButton = new JButton("Insert a Custom Gamepiece");
 		label1 = new JLabel("Test");
 		label1.setText("Label Text");
 		label2 = new JLabel("Test");
@@ -90,6 +92,7 @@ public class Frame extends JFrame {
 		this.connection.connect("yangw2","IUUser");
 		this.gamerService = new GamerService(this.connection);
 		this.insertGamepieceService = new InsertGame_GamepieceService(connection);
+		this.insertGamerService = new InsertGamerService(connection);
 		this.submitButton = new JButton("Submit");
 		this.clearButton = new JButton("Clear");
 		this.loginButton = new JButton("Login");
@@ -100,7 +103,30 @@ public class Frame extends JFrame {
 		prepare();
 		this.setVisible(true);
 	}
-	
+	public void reset() {
+		text1.setText("");
+		text2.setText("");
+		buttonPanel.remove(label1);
+		buttonPanel.remove(spanLabel2);
+		buttonPanel.remove(spanLabel1);
+		buttonPanel.remove(text1);
+		buttonPanel.remove(label2);
+		buttonPanel.remove(spanLabel3);
+		buttonPanel.remove(text2);
+		buttonPanel.remove(spanLabel4);
+		buttonPanel.remove(submitButton);
+		buttonPanel.remove(clearButton);
+		frame.invalidate();
+		frame.validate();
+		frame.repaint();
+	}
+	public void prepareBasicText() {
+		reset();
+		buttonPanel.add(spanLabel1);
+		buttonPanel.add(label1);
+		buttonPanel.add(text1);
+		buttonPanel.add(spanLabel2);
+	}
 	private void prepare() {
 		this.setTitle("Gamer Database Access");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -115,25 +141,54 @@ public class Frame extends JFrame {
 		this.buttonPanel.add(this.getmatchButton);
 		this.buttonPanel.add(this.addGamePieceButton);
 		this.buttonPanel.add(loginButton);
-		this.buttonPanel.add(spanLabel1);
-		this.buttonPanel.add(label1);
 		text1.setHorizontalAlignment(JTextField.CENTER);
 		text2.setHorizontalAlignment(JTextField.CENTER);
-		this.buttonPanel.add(this.text1);
-		this.buttonPanel.add(spanLabel2);
 		// https://stackoverflow.com/questions/15507639/how-do-i-center-a-jtextfield
 		
 		class AddListener implements ActionListener{
-			private GamerService gamerService;
-			private JTable table;
-			private DefaultTableModel tableModel;
-			public AddListener(GamerService gamerS) {
-				this.gamerService = gamerS;
+			private InsertGamerService InsertGamerService;
+
+			public AddListener(InsertGamerService insertGamerService) {
+				this.InsertGamerService = insertGamerService;
 			}
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
-				this.gamerService.insertOneGamer("uniqued", "Cool Name", "James.Jones@domain.com", "01-01-1999");
+				prepareBasicText();
+				label1.setText("Input new Gamer Name");
+				frame.invalidate();
+				frame.validate();
+				frame.repaint();
+				buttonPanel.add(submitButton);
+				buttonPanel.add(clearButton);
+				//Scanner in = new Scanner(System.in);
+				//String gamepieceName = in.next();
+				submitButton.addActionListener(new SubmitListener());
+				clearButton.addActionListener(new ClearListener());
+				//this.InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
+			}
+			class SubmitListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
+					String gamepieceName = text1.getText();
+					InsertGamerService.insertOneGamePiece(gamepieceName);
+					reset();
+					frame.invalidate();
+					frame.validate();
+					frame.repaint();
+				}
+				
+			}
+			class ClearListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					text1.setText("");
+				}
+				
 			}
 			
 		}
@@ -147,6 +202,7 @@ public class Frame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
+				reset();
 				this.gamerService.getAllGameNames();
 			}
 			
@@ -161,6 +217,7 @@ public class Frame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
+				reset();
 				this.gamerService.getAllGamePieces();
 			}
 			
@@ -175,6 +232,7 @@ public class Frame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
+				reset();
 				this.gamerService.getAllMatchRecords("1/9/2023", "MTG", "w");
 			}
 			
@@ -189,6 +247,7 @@ public class Frame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
+				prepareBasicText();
 				label1.setText("Input new Gamepiece Name");
 				frame.invalidate();
 				frame.validate();
@@ -222,6 +281,7 @@ public class Frame extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					reset();
 					text1.setText("");
 				}
 				
@@ -238,6 +298,7 @@ public class Frame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
+				prepareBasicText();
 				label1.setText("Please Enter Your Username");
 				buttonPanel.add(label2);
 				label2.setText("Please Enter Your Password");
@@ -262,13 +323,7 @@ public class Frame extends JFrame {
 					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
 					String gamepieceName = text1.getText();
 					InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
-					text1.setText("");
-					buttonPanel.remove(label2);
-					buttonPanel.remove(spanLabel3);
-					buttonPanel.remove(text2);
-					buttonPanel.remove(spanLabel4);
-					buttonPanel.remove(submitButton);
-					buttonPanel.remove(clearButton);
+					reset();
 					frame.invalidate();
 					frame.validate();
 					frame.repaint();
@@ -324,7 +379,7 @@ public class Frame extends JFrame {
 		}
 		this.goButton.addActionListener(new GoListener(this.dropDown, this.gamerService, this.displayTable, tableModel));
 		//temp button listener
-		this.addButton.addActionListener(new AddListener(gamerService));
+		this.addButton.addActionListener(new AddListener(insertGamerService));
 		this.getgameButton.addActionListener(new GetGameListener(gamerService));
 		this.getgamepieceButton.addActionListener(new GetGamePieceListener(gamerService));
 		this.getmatchButton.addActionListener(new GetMatchListener(gamerService));
