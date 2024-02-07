@@ -216,7 +216,7 @@ public class Frame extends JFrame {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
 				buttonPanel.add(label0);
-				label0.setText("Add successful!");
+				label0.setText("The operation has been successfully completed, but a GUI implementation of the results is not yet created. Please contact an administrator and try again.");
 				this.gamerService.getAllGameNames();
 			}
 			
@@ -233,7 +233,7 @@ public class Frame extends JFrame {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
 				buttonPanel.add(label0);
-				label0.setText("Add successful!");
+				label0.setText("The operation has been successfully completed, but a GUI implementation of the results is not yet created. Please contact an administrator and try again.");
 				this.gamerService.getAllGamePieces();
 			}
 			
@@ -250,7 +250,7 @@ public class Frame extends JFrame {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
 				buttonPanel.add(label0);
-				label0.setText("Add successful!");
+				label0.setText("The operation has been successfully completed, but a GUI implementation of the results is not yet created. Please contact an administrator and try again.");
 				this.gamerService.getAllMatchRecords("1/9/2023", "MTG", "w");
 			}
 			
@@ -288,7 +288,7 @@ public class Frame extends JFrame {
 					InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
 					reset();
 					buttonPanel.add(label0);
-					label0.setText("Add successful!");
+					label0.setText("The operation has been successfully completed, but a GUI implementation of the results is not yet created. Please contact an administrator and try again.");
 					frame.invalidate();
 					frame.validate();
 					frame.repaint();
@@ -342,7 +342,7 @@ public class Frame extends JFrame {
 					InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
 					reset();
 					buttonPanel.add(label0);
-					label0.setText("Add successful!");
+					label0.setText("The operation has been successfully completed, but a GUI implementation of the results is not yet created. Please contact an administrator and try again.");
 					frame.invalidate();
 					frame.validate();
 					frame.repaint();
