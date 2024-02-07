@@ -48,9 +48,13 @@ public class Frame extends JFrame {
 	private DatabaseConnectionService connection;
 	private JScrollPane tablePane;
 	private JLabel label1;
+	private JLabel label2;
 	private JTextField text1;
+	private JTextField text2;
 	private JLabel spanLabel1 = new JLabel("-                                                                                                                                                                                                                                                    -");
 	private JLabel spanLabel2 = new JLabel("-                                                                                                                                                                                                                                                    -");
+	private JLabel spanLabel3 = new JLabel("-                                                                                                                                                                                                                                                    -");
+	private JLabel spanLabel4 = new JLabel("-                                                                                                                                                                                                                                                    -");
 	private JFrame frame = this;
 	
 	public Frame() {
@@ -66,7 +70,10 @@ public class Frame extends JFrame {
 		this.addGamePieceButton = new JButton("Insert One Gamepiece");
 		label1 = new JLabel("Test");
 		label1.setText("Label Text");
+		label2 = new JLabel("Test");
+		label2.setText("Label Text");
 		this.text1 = new JTextField(72);
+		this.text2 = new JTextField(72);
 		
 		this.displayTable = new JTable(tableModel);
 		this.dropDown = new JComboBox<String>(queryOpts);
@@ -215,6 +222,58 @@ public class Frame extends JFrame {
 				}
 				
 			}
+			
+		}
+
+		class LoginListener implements ActionListener{
+			private InsertGame_GamepieceService InsertGame_GamepieceService;
+
+			public LoginListener(InsertGame_GamepieceService service) {
+				this.InsertGame_GamepieceService = service;
+			}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// add a new gamer (pre-defined, eventually should take from textboxes)
+				label1.setText("Input new Gamepiece Name");
+				buttonPanel.add(text2);
+				buttonPanel.add(spanLabel2);
+				buttonPanel.add(submitButton);
+				buttonPanel.add(clearButton);
+				frame.invalidate();
+				frame.validate();
+				frame.repaint();
+				//Scanner in = new Scanner(System.in);
+				//String gamepieceName = in.next();
+				submitButton.addActionListener(new SubmitListener());
+				clearButton.addActionListener(new ClearListener());
+				//this.InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
+			}
+			class SubmitListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
+					String gamepieceName = text1.getText();
+					InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
+					text1.setText("");
+					buttonPanel.remove(submitButton);
+					buttonPanel.remove(clearButton);
+					frame.invalidate();
+					frame.validate();
+					frame.repaint();
+				}
+				
+			}
+			class ClearListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					text1.setText("");
+				}
+				
+			}
+			
 		}
 		
 		this.setResizable(true);
