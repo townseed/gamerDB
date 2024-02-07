@@ -53,23 +53,24 @@ public class Frame extends JFrame {
 	private JLabel label2;
 	private JTextField text1;
 	private JTextField text2;
+	private JLabel spanLabel0 = new JLabel("-                                                                                                                                                                                                                                                    -");
 	private JLabel spanLabel1 = new JLabel("-                                                                                                                                                                                                                                                    -");
 	private JLabel spanLabel2 = new JLabel("-                                                                                                                                                                                                                                                    -");
 	private JLabel spanLabel3 = new JLabel("-                                                                                                                                                                                                                                                    -");
 	private JLabel spanLabel4 = new JLabel("-                                                                                                                                                                                                                                                    -");
+	private JLabel spanLabel5 = new JLabel("-                                                                                                                                                                                                                                                    -");
 	private JFrame frame = this;
 	private JButton loginButton;
+	private JButton registerButton;
 	
 	public Frame() {
 		tableModel = new DefaultTableModel();
 		this.buttonPanel = new JPanel();
-		this.goButton = new JButton("List All Gamers");
-		
-		//temp add new button
-		this.addButton = new JButton("Insert a Custom Gamer");
+		this.goButton = new JButton("Get All Gamers");
 		this.getgameButton = new JButton("Get All Game Names");
 		this.getgamepieceButton = new JButton("Get All Game Pieces");
 		this.getmatchButton = new JButton("Get All Matches");
+		this.addButton = new JButton("Insert a Custom Gamer");
 		this.addGamePieceButton = new JButton("Insert a Custom Gamepiece");
 		label1 = new JLabel("Test");
 		label1.setText("Label Text");
@@ -95,7 +96,8 @@ public class Frame extends JFrame {
 		this.insertGamerService = new InsertGamerService(connection);
 		this.submitButton = new JButton("Submit");
 		this.clearButton = new JButton("Clear");
-		this.loginButton = new JButton("Login");
+		this.loginButton = new JButton("                         Login                         ");
+		this.registerButton = new JButton("                         Register                         ");
 		
 //		this.tablePane = new JScrollPane(this.displayTable);
 //		this.displayTable.setFillsViewportHeight(true);
@@ -133,14 +135,16 @@ public class Frame extends JFrame {
 		this.setSize(Frame.WIDTH, Frame.HEIGHT);
 		// https://stackoverflow.com/questions/32467246/how-to-start-something-on-a-new-line-in-java-swing
         add(buttonPanel, BorderLayout.CENTER);
+		this.buttonPanel.add(loginButton);
+		this.buttonPanel.add(registerButton);
+		this.buttonPanel.add(spanLabel5);
 		this.buttonPanel.add(this.goButton);
-		//add temp button
-		this.buttonPanel.add(this.addButton);
 		this.buttonPanel.add(this.getgameButton);
 		this.buttonPanel.add(this.getgamepieceButton);
 		this.buttonPanel.add(this.getmatchButton);
+		this.buttonPanel.add(spanLabel0);
+		this.buttonPanel.add(this.addButton);
 		this.buttonPanel.add(this.addGamePieceButton);
-		this.buttonPanel.add(loginButton);
 		text1.setHorizontalAlignment(JTextField.CENTER);
 		text2.setHorizontalAlignment(JTextField.CENTER);
 		// https://stackoverflow.com/questions/15507639/how-do-i-center-a-jtextfield
