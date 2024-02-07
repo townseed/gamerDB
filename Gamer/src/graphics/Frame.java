@@ -56,6 +56,7 @@ public class Frame extends JFrame {
 	private JLabel spanLabel3 = new JLabel("-                                                                                                                                                                                                                                                    -");
 	private JLabel spanLabel4 = new JLabel("-                                                                                                                                                                                                                                                    -");
 	private JFrame frame = this;
+	private JButton loginButton;
 	
 	public Frame() {
 		tableModel = new DefaultTableModel();
@@ -91,6 +92,7 @@ public class Frame extends JFrame {
 		this.insertGamepieceService = new InsertGame_GamepieceService(connection);
 		this.submitButton = new JButton("Submit");
 		this.clearButton = new JButton("Clear");
+		this.loginButton = new JButton("Login");
 		
 //		this.tablePane = new JScrollPane(this.displayTable);
 //		this.displayTable.setFillsViewportHeight(true);
@@ -112,9 +114,11 @@ public class Frame extends JFrame {
 		this.buttonPanel.add(this.getgamepieceButton);
 		this.buttonPanel.add(this.getmatchButton);
 		this.buttonPanel.add(this.addGamePieceButton);
+		this.buttonPanel.add(loginButton);
 		this.buttonPanel.add(spanLabel1);
 		this.buttonPanel.add(label1);
 		text1.setHorizontalAlignment(JTextField.CENTER);
+		text2.setHorizontalAlignment(JTextField.CENTER);
 		this.buttonPanel.add(this.text1);
 		this.buttonPanel.add(spanLabel2);
 		// https://stackoverflow.com/questions/15507639/how-do-i-center-a-jtextfield
@@ -234,9 +238,11 @@ public class Frame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
-				label1.setText("Input new Gamepiece Name");
+				label1.setText("Please Enter Your Username");
+				buttonPanel.add(label2);
+				label2.setText("Please Enter Your Password");
 				buttonPanel.add(text2);
-				buttonPanel.add(spanLabel2);
+				buttonPanel.add(spanLabel4);
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
 				frame.invalidate();
@@ -257,6 +263,10 @@ public class Frame extends JFrame {
 					String gamepieceName = text1.getText();
 					InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
 					text1.setText("");
+					buttonPanel.remove(label2);
+					buttonPanel.remove(spanLabel3);
+					buttonPanel.remove(text2);
+					buttonPanel.remove(spanLabel4);
 					buttonPanel.remove(submitButton);
 					buttonPanel.remove(clearButton);
 					frame.invalidate();
@@ -270,6 +280,7 @@ public class Frame extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					text1.setText("");
+					text2.setText("");
 				}
 				
 			}
@@ -318,6 +329,7 @@ public class Frame extends JFrame {
 		this.getgamepieceButton.addActionListener(new GetGamePieceListener(gamerService));
 		this.getmatchButton.addActionListener(new GetMatchListener(gamerService));
 		this.addGamePieceButton.addActionListener(new AddGamePiecesListener(insertGamepieceService));
+		this.loginButton.addActionListener(new LoginListener(insertGamepieceService));
 	}
 	
 	public void run() {
