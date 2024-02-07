@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -39,6 +40,7 @@ public class Frame extends JFrame {
 	private JButton getgamepieceButton;
 	private JButton getmatchButton;
 	private JButton addGamePieceButton;
+	private JButton submitButton;
 	private JTable displayTable;
 	private JComboBox<String> dropDown;
 	private GamerService gamerService;
@@ -49,13 +51,12 @@ public class Frame extends JFrame {
 	private JTextField text1;
 	private JLabel spanLabel1 = new JLabel("-                                                                                                                                                                                                                                                    -");
 	private JLabel spanLabel2 = new JLabel("-                                                                                                                                                                                                                                                    -");
-
+	private JFrame frame = this;
 	
 	public Frame() {
 		tableModel = new DefaultTableModel();
 		this.buttonPanel = new JPanel();
 		this.goButton = new JButton("get gamer");
-		this.clearButton = new JButton("clear");
 		
 		//temp add new button
 		this.addButton = new JButton("Add Gamer");
@@ -81,6 +82,8 @@ public class Frame extends JFrame {
 		this.connection.connect("yangw2","IUUser");
 		this.gamerService = new GamerService(this.connection);
 		this.insertGamepieceService = new InsertGame_GamepieceService(connection);
+		this.submitButton = new JButton("Submit");
+		this.clearButton = new JButton("Clear");
 		
 //		this.tablePane = new JScrollPane(this.displayTable);
 //		this.displayTable.setFillsViewportHeight(true);
@@ -175,13 +178,42 @@ public class Frame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
-				Scanner in = new Scanner(System.in);
-				System.out.println("Input new Gamepiece Name");
-				text1.setText("Input new Gamepiece Name");
-				String gamepieceName = in.next();
+				label1.setText("Input new Gamepiece Name");
+				frame.invalidate();
+				frame.validate();
+				frame.repaint();
+				buttonPanel.add(submitButton);
+				buttonPanel.add(clearButton);
+				//Scanner in = new Scanner(System.in);
+				//String gamepieceName = in.next();
+				submitButton.addActionListener(new SubmitListener());
+				clearButton.addActionListener(new ClearListener());
+				//this.InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
+			}
+			class SubmitListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
+					String gamepieceName = text1.getText();
+					InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
+					text1.setText("");
+					buttonPanel.remove(submitButton);
+					buttonPanel.remove(clearButton);
+					frame.invalidate();
+					frame.validate();
+					frame.repaint();
+				}
 				
-				this.InsertGame_GamepieceService.
-				insertOneGamePiece(gamepieceName);
+			}
+			class ClearListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					text1.setText("");
+				}
+				
 			}
 		}
 		
