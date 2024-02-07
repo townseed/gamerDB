@@ -49,6 +49,7 @@ public class Frame extends JFrame {
 	private InsertGamerService insertGamerService;
 	private DatabaseConnectionService connection;
 	private JScrollPane tablePane;
+	private JLabel label0;
 	private JLabel label1;
 	private JLabel label2;
 	private JTextField text1;
@@ -72,6 +73,8 @@ public class Frame extends JFrame {
 		this.getmatchButton = new JButton("Get All Matches");
 		this.addButton = new JButton("Insert a Custom Gamer");
 		this.addGamePieceButton = new JButton("Insert a Custom Gamepiece");
+		label0 = new JLabel("Output");
+		label0.setText("Output");
 		label1 = new JLabel("Test");
 		label1.setText("Label Text");
 		label2 = new JLabel("Test");
@@ -106,6 +109,7 @@ public class Frame extends JFrame {
 		this.setVisible(true);
 	}
 	public void reset() {
+		label0.setText("");
 		text1.setText("");
 		text2.setText("");
 		buttonPanel.remove(label1);
@@ -113,7 +117,6 @@ public class Frame extends JFrame {
 		buttonPanel.remove(spanLabel1);
 		buttonPanel.remove(text1);
 		buttonPanel.remove(label2);
-		buttonPanel.remove(spanLabel3);
 		buttonPanel.remove(text2);
 		buttonPanel.remove(spanLabel4);
 		buttonPanel.remove(submitButton);
@@ -145,6 +148,8 @@ public class Frame extends JFrame {
 		this.buttonPanel.add(spanLabel0);
 		this.buttonPanel.add(this.addButton);
 		this.buttonPanel.add(this.addGamePieceButton);
+		this.buttonPanel.add(spanLabel3);
+		this.buttonPanel.add(label0);
 		text1.setHorizontalAlignment(JTextField.CENTER);
 		text2.setHorizontalAlignment(JTextField.CENTER);
 		// https://stackoverflow.com/questions/15507639/how-do-i-center-a-jtextfield
@@ -165,6 +170,7 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
+				buttonPanel.add(label0);
 				//Scanner in = new Scanner(System.in);
 				//String gamepieceName = in.next();
 				submitButton.addActionListener(new SubmitListener());
@@ -180,6 +186,7 @@ public class Frame extends JFrame {
 					String gamepieceName = text1.getText();
 					InsertGamerService.insertOneGamePiece(gamepieceName);
 					reset();
+					label0.setText("Add successful!");
 					frame.invalidate();
 					frame.validate();
 					frame.repaint();
@@ -207,6 +214,7 @@ public class Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
+				label0.setText("Add successful!");
 				this.gamerService.getAllGameNames();
 			}
 			
@@ -222,6 +230,7 @@ public class Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
+				label0.setText("Add successful!");
 				this.gamerService.getAllGamePieces();
 			}
 			
@@ -237,6 +246,7 @@ public class Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
+				label0.setText("Add successful!");
 				this.gamerService.getAllMatchRecords("1/9/2023", "MTG", "w");
 			}
 			
@@ -275,6 +285,7 @@ public class Frame extends JFrame {
 					text1.setText("");
 					buttonPanel.remove(submitButton);
 					buttonPanel.remove(clearButton);
+					label0.setText("Add successful!");
 					frame.invalidate();
 					frame.validate();
 					frame.repaint();
@@ -328,6 +339,7 @@ public class Frame extends JFrame {
 					String gamepieceName = text1.getText();
 					InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
 					reset();
+					label0.setText("Add successful!");
 					frame.invalidate();
 					frame.validate();
 					frame.repaint();
