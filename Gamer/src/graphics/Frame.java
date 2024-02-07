@@ -74,7 +74,7 @@ public class Frame extends JFrame {
 		this.addButton = new JButton("Insert a Custom Gamer");
 		this.addGamePieceButton = new JButton("Insert a Custom Gamepiece");
 		label0 = new JLabel("Output");
-		label0.setText("Output");
+		label0.setText("Welcome to the Gamer Interface! If you haven't already, please log in to ensure a secure environment!");
 		label1 = new JLabel("Test");
 		label1.setText("Label Text");
 		label2 = new JLabel("Test");
@@ -112,6 +112,7 @@ public class Frame extends JFrame {
 		label0.setText("");
 		text1.setText("");
 		text2.setText("");
+		buttonPanel.remove(label0);
 		buttonPanel.remove(label1);
 		buttonPanel.remove(spanLabel2);
 		buttonPanel.remove(spanLabel1);
@@ -170,7 +171,6 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
-				buttonPanel.add(label0);
 				//Scanner in = new Scanner(System.in);
 				//String gamepieceName = in.next();
 				submitButton.addActionListener(new SubmitListener());
@@ -186,6 +186,7 @@ public class Frame extends JFrame {
 					String gamepieceName = text1.getText();
 					InsertGamerService.insertOneGamePiece(gamepieceName);
 					reset();
+					buttonPanel.add(label0);
 					label0.setText("Add successful!");
 					frame.invalidate();
 					frame.validate();
@@ -214,6 +215,7 @@ public class Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
+				buttonPanel.add(label0);
 				label0.setText("Add successful!");
 				this.gamerService.getAllGameNames();
 			}
@@ -230,6 +232,7 @@ public class Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
+				buttonPanel.add(label0);
 				label0.setText("Add successful!");
 				this.gamerService.getAllGamePieces();
 			}
@@ -246,6 +249,7 @@ public class Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
+				buttonPanel.add(label0);
 				label0.setText("Add successful!");
 				this.gamerService.getAllMatchRecords("1/9/2023", "MTG", "w");
 			}
@@ -282,9 +286,8 @@ public class Frame extends JFrame {
 					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
 					String gamepieceName = text1.getText();
 					InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
-					text1.setText("");
-					buttonPanel.remove(submitButton);
-					buttonPanel.remove(clearButton);
+					reset();
+					buttonPanel.add(label0);
 					label0.setText("Add successful!");
 					frame.invalidate();
 					frame.validate();
@@ -296,7 +299,6 @@ public class Frame extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					reset();
 					text1.setText("");
 				}
 				
@@ -339,6 +341,7 @@ public class Frame extends JFrame {
 					String gamepieceName = text1.getText();
 					InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
 					reset();
+					buttonPanel.add(label0);
 					label0.setText("Add successful!");
 					frame.invalidate();
 					frame.validate();
