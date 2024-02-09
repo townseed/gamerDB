@@ -11,7 +11,7 @@ public class ImportMain {
 
 	public static void main(String[] args) {
 		ArrayList<String> queries = manageScanner();
-		manageConnection(queries);
+		// manageConnection(queries);
 		
 	}
 	public static ArrayList<String> manageScanner() {
@@ -39,8 +39,7 @@ public class ImportMain {
 		ArrayList<ArrayList<String>> AttributeList = new ArrayList<ArrayList<String>>();
 		ArrayList<ArrayList<String>> GameAttributeList = new ArrayList<ArrayList<String>>();
  		int[] spacing = new int[] {4, 9, 11, 12, 13, 14};
-		
-		ArrayList<String> queries = new ArrayList<String>();
+ 		
 		try {
 			scanner = new Scanner(new File("C:\\ezRun\\sample_Data.csv"));
 			scanner.useDelimiter(",");  //delimiter pattern for .csv files
@@ -131,6 +130,8 @@ public class ImportMain {
 					}
 					count++;
 				}
+				
+				// add rows to tables. 
 				if(Gamer.size() >= 1) {
 					GamerList.add(Gamer);
 				}
@@ -155,39 +156,71 @@ public class ImportMain {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}  
+		
+		ArrayList<String> queries = new ArrayList<String>();
+        String insertGamerSP = "EXEC InsertGamer ?, ?, ?, ?";
+        String insertMatchSP = "EXEC InsertMatch ?, ?";
+        String insertGameSP = "EXEC InsertGame ?";
+        String insertGamepieceSP = "EXEC InsertGamepiece ?";
+        String insertGamepieceHasSP = "EXEC InsertGamepieceHas ?, ?";
+        String insertAttributeSP = "EXEC InsertAttribute ?";
+        String insertGameAttributeSP = "EXEC InsertGameAttribute ?, ?";
 
-		queries.add("drop table gamers");
-		queries.add("drop table matches");
-		queries.add("drop table gamepieces");
-		queries.add("drop table gamepieceshave");
-		queries.add("drop table gamepieceattributes");
-		queries.add("drop table gameattributess");
-		queries.add(tableQueryCreator("gamers", columnHeadersGamer));
-		queries.add(tableQueryCreator("matches", columnHeadersMatch));
-		queries.add(tableQueryCreator("gamepieces", columnHeadersGamepiece));
-		queries.add(tableQueryCreator("gamepieceshave", columnHeadersGamepieceHas));
-		queries.add(tableQueryCreator("gamepieceattributes", columnHeadersGamePieceAttribute));
-		queries.add(tableQueryCreator("gameattributess", columnHeadersGameAttribute));
-		for(ArrayList<String> a : GamerList) {
-			queries.add(tupleQueryCreator("gamers", columnHeadersGamer, a));
-		}
-		for(ArrayList<String> b : MatchList) {
-			queries.add(tupleQueryCreator("matches", columnHeadersMatch, b));
-		}
-		for(ArrayList<String> c : GamepieceList) {
-			queries.add(tupleQueryCreator("gamepieces", columnHeadersGamepiece, c));
-		}
-		for(ArrayList<String> d : GamepieceHasList) {
-			queries.add(tupleQueryCreator("gamepieceshave", columnHeadersGamepieceHas, d));
-		}
-		for(ArrayList<String> e : AttributeList) {
-			queries.add(tupleQueryCreator("gamepieceattributes", columnHeadersGamePieceAttribute, e));
-		}
-		for(ArrayList<String> f : GameAttributeList) {
-			queries.add(tupleQueryCreator("gameattributess", columnHeadersGameAttribute, f));
-		}
+        for (ArrayList<String> gamer : GamerList) {
+            String query = String.format(insertGamerSP, gamer.toArray());
+            queries.add(query);
+        }
+        
+        for (ArrayList<String> match : MatchList) {
+            queries.add(String.format(insertMatchSP, match.toArray()));
+        }
+
+        for (ArrayList<String> game : GameList) {
+            queries.add(String.format(insertGameSP, game.toArray()));
+        }
+
+        for (ArrayList<String> gamepiece : GamepieceList) {
+            queries.add(String.format(insertGamepieceSP, gamepiece.toArray()));
+        }
+
+        for (ArrayList<String> attribute : AttributeList) {
+            queries.add(String.format(insertAttributeSP, attribute.toArray()));
+        }
+
+//		queries.add("drop table gamers");
+//		queries.add("drop table matches");
+//		queries.add("drop table gamepieces");
+//		queries.add("drop table gamepieceshave");
+//		queries.add("drop table gamepieceattributes");
+//		queries.add("drop table gameattributess");
+//		queries.add(tableQueryCreator("gamers", columnHeadersGamer));
+//		queries.add(tableQueryCreator("matches", columnHeadersMatch));
+//		queries.add(tableQueryCreator("gamepieces", columnHeadersGamepiece));
+//		queries.add(tableQueryCreator("gamepieceshave", columnHeadersGamepieceHas));
+//		queries.add(tableQueryCreator("gamepieceattributes", columnHeadersGamePieceAttribute));
+//		queries.add(tableQueryCreator("gameattributess", columnHeadersGameAttribute));
+//		for(ArrayList<String> a : GamerList) {
+//			queries.add(tupleQueryCreator("gamers", columnHeadersGamer, a));
+//		}
+//		for(ArrayList<String> b : MatchList) {
+//			queries.add(tupleQueryCreator("matches", columnHeadersMatch, b));
+//		}
+//		for(ArrayList<String> c : GamepieceList) {
+//			queries.add(tupleQueryCreator("gamepieces", columnHeadersGamepiece, c));
+//		}
+//		for(ArrayList<String> d : GamepieceHasList) {
+//			queries.add(tupleQueryCreator("gamepieceshave", columnHeadersGamepieceHas, d));
+//		}
+//		for(ArrayList<String> e : AttributeList) {
+//			queries.add(tupleQueryCreator("gamepieceattributes", columnHeadersGamePieceAttribute, e));
+//		}
+//		for(ArrayList<String> f : GameAttributeList) {
+//			queries.add(tupleQueryCreator("gameattributess", columnHeadersGameAttribute, f));
+//		}
 		return queries;
 	}
+	
+	
 	public static String tableQueryCreator(String tableName, ArrayList<String> tableSpecs) {
 		//https://stackoverflow.com/questions/6520999/create-table-if-not-exists-equivalent-in-sql-server
 		//https://stackoverflow.com/questions/10991894/auto-increment-primary-key-in-sql-server-management-studio-2012
@@ -224,7 +257,8 @@ public class ImportMain {
 	
 	public static void manageConnection(ArrayList<String> queries) {
 		Connection connection = null;
-		final String SampleURL = "jdbc:sqlserver://golem.csse.rose-hulman.edu;databaseName=s1g7;user=soiefeam;password=~;encrypt=false;";
+		final String SampleURL = "jdbc:sqlserver://golem.csse.rose-hulman.edu;"
+				+ "databaseName=s1g7;user=soiefeam;password=~;encrypt=false;";
 		try {
 			connection = DriverManager.getConnection(SampleURL);
 			System.out.println("Connection open!");
