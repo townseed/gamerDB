@@ -14,21 +14,19 @@ public class InsertGamerService {
 		this.dbService = dbService;
 	}
 	
-	public boolean insertOneGamePiece(String gamePieceName) {
-		if (gamePieceName.length() > 20) {
-			System.out.println("Service error: Gamer length greater than 20");
-			return false;
-		}
-		
-		String query = "{? = call [dbo].[InsertGamer](?)}";
+	public boolean insertGamer(FetchGamers gamerInfo) {
+		String query = "insert into gamer([name], username, email, dateOfBirth) values(?,?,?,?)";
 		int returnedVal = -1;
 		
 		try {
 			CallableStatement statement = this.dbService.getConnection().prepareCall(query);
-			statement.registerOutParameter(1, java.sql.Types.INTEGER);
-			statement.setString(2, gamePieceName);
+//			statement.registerOutParameter(1, returnedVal);
+			statement.setString(1, gamerInfo.name);
+			statement.setString(2, gamerInfo.username);
+			statement.setString(3, gamerInfo.email);
+			statement.setString(4, gamerInfo.dob);
 			statement.execute();
-			returnedVal = statement.getInt(1);
+			//returnedVal = statement.getInt(1);
 			if(returnedVal == -1 || returnedVal == 0) {
 				System.out.println("Add completed successfully!");
 			}

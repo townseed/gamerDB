@@ -31,7 +31,7 @@ public class GamerService {
 			return gamerNames;
 		}
 		catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Failed to retrieve gamer names.");
+			JOptionPane.showMessageDialog(null, "Failed to retrieve game names.");
 			ex.printStackTrace();
 			return new ArrayList<String>();
 		}
@@ -73,7 +73,7 @@ public class GamerService {
 	}
 	
 	public ArrayList<FetchGamers> getGamersTable(){
-		String query = "SELECT * FROM Gamer";
+		String query = "select * from gamer";
 		try {
 			Statement stmt = this.dbService.getConnection().createStatement();
 			return parseResults(stmt.executeQuery(query));
@@ -102,70 +102,80 @@ public class GamerService {
 			return fetchGamers;
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null,
-					"An error ocurred while retrieving sodas by restaurants. See printed stack trace.");
+					"An error ocurred while retrieving data. See printed stack trace.");
 			ex.printStackTrace();
 			return new ArrayList<FetchGamers>();
 		}
 
 	}
 	public ArrayList<String> getAllGameNames(){
-		ArrayList<String> gamerNames = new ArrayList<String>();
+		ArrayList<String> gameNames = new ArrayList<String>();
 		try {
 			Statement stmt = this.dbService.getConnection().createStatement();
-			String query = "exec getAllGameNames\n"; 
+			String query = "select [name] from game"; 
 			// later replace it with sp.
 			ResultSet rs = stmt.executeQuery(query);
 			int nameIndex = rs.findColumn("name");
 			while (rs.next()) {
-				gamerNames.add(rs.getString(nameIndex));
+				gameNames.add(rs.getString(nameIndex));
 			}
-			System.out.println(gamerNames);
-			return gamerNames;
+			System.out.println(gameNames);
+			return gameNames;
 		}
 		catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Failed to retrieve gamer names.");
+			JOptionPane.showMessageDialog(null, "Failed to retrieve game names.");
 			ex.printStackTrace();
 			return new ArrayList<String>();
 		}
 	}
-	public ArrayList<String> getAllGamePieces(){
-		ArrayList<String> gamerNames = new ArrayList<String>();
+	public TwinStringList getAllGamePieces(){
+		TwinStringList results = new TwinStringList();
 		try {
 			Statement stmt = this.dbService.getConnection().createStatement();
-			String query = "exec getAllGamePieces\n"; 
+			String query = "select p.[name] as [Gamepiece Name], g.[name] as [Game Name] from gamepiece p join game g on g.id = p.gameID\n"; 
 			// later replace it with sp.
 			ResultSet rs = stmt.executeQuery(query);
-			int nameIndex = rs.findColumn("name");
+			int GPnameIndex = rs.findColumn("gamepiece name");
+			int GnameIndex = rs.findColumn("game name");
 			while (rs.next()) {
-				gamerNames.add(rs.getString(nameIndex));
+				results.first.add(rs.getString(GPnameIndex));
+				results.second.add(rs.getString(GnameIndex));
 			}
-			System.out.println(gamerNames);
-			return gamerNames;
+			//System.out.println(gamerNames);
+			return results;
 		}
 		catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Failed to retrieve gamer names.");
+			JOptionPane.showMessageDialog(null, "Failed to retrieve gamepiece names.");
 			ex.printStackTrace();
-			return new ArrayList<String>();
+			return new TwinStringList();
 		}
 	}
-	public ArrayList<String> getAllMatchRecords(String date, String game, String result){
-		ArrayList<String> gamerNames = new ArrayList<String>();
+	public PentaStringList getUserMatchRecords(String username){
+		PentaStringList results = new PentaStringList();
 		try {
 			Statement stmt = this.dbService.getConnection().createStatement();
-			String query = "exec getAllMatchRecords '" + date + "', '" + game + "', '" + result + "'\n"; 
+			String query = "exec getUserMatchRecords '" + username + "'"; 
 			// later replace it with sp.
 			ResultSet rs = stmt.executeQuery(query);
-			int nameIndex = rs.findColumn("ID");
+			int gameIndex = rs.findColumn("Game Name");
+			int pieceIndex = rs.findColumn("Gamepiece Name");
+			int dateIndex = rs.findColumn("date");
+			int resultIndex = rs.findColumn("result");
+			int scoreIndex = rs.findColumn("score");
 			while (rs.next()) {
-				gamerNames.add(rs.getString(nameIndex));
+				results.first.add(rs.getString(gameIndex));
+				results.second.add(rs.getString(pieceIndex));
+				results.third.add(rs.getString(dateIndex));
+				results.fourth.add(rs.getString(resultIndex));
+				results.fith.add(rs.getString(scoreIndex));
 			}
-			System.out.print(gamerNames);
-			return gamerNames;
+//			System.out.print(gamerNames);
+			return results;
 		}
 		catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Failed to retrieve gamer names.");
+			JOptionPane.showMessageDialog(null, "Failed to retrieve gamer results.");
 			ex.printStackTrace();
-			return new ArrayList<String>();
+			return new PentaStringList();
 		}
 	}
 	
