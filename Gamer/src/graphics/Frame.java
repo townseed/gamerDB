@@ -222,8 +222,10 @@ public class Frame extends JFrame {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
 				buttonPanel.add(label0);
-				label0.setText("The operation has been successfully completed, but a GUI implementation of the results is not yet created. \n Please contact an administrator and try again.");
-				this.gamerService.getAllGameNames();
+				String superString = "";
+				ArrayList<String> strings = this.gamerService.getAllGameNames();
+				superString = strings.toString();
+				label0.setText(superString);
 			}
 			
 		}
@@ -239,8 +241,10 @@ public class Frame extends JFrame {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
 				buttonPanel.add(label0);
-				label0.setText("The operation has been successfully completed, but a GUI implementation of the results is not yet created. \n Please contact an administrator and try again.");
-				this.gamerService.getAllGamePieces();
+				String superString = "";
+				ArrayList<String> strings = this.gamerService.getAllGamePieces();
+				superString = strings.toString();
+				label0.setText(superString);
 			}
 			
 		}
@@ -256,8 +260,10 @@ public class Frame extends JFrame {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
 				buttonPanel.add(label0);
-				label0.setText("The operation has been successfully completed, but a GUI implementation of the results is not yet created. \n Please contact an administrator and try again.");
-				this.gamerService.getAllMatchRecords("1/9/2023", "MTG", "w");
+				String superString = "";
+				ArrayList<String> strings = this.gamerService.getAllMatchRecords("1/9/2023", "MTG", "w");
+				superString = strings.toString();
+				label0.setText(superString);
 			}
 			
 		}
@@ -294,7 +300,7 @@ public class Frame extends JFrame {
 					InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
 					reset();
 					buttonPanel.add(label0);
-					label0.setText("The operation has been successfully completed, but a GUI implementation of the results is not yet created. \n Please contact an administrator and try again.");
+					label0.setText("The piece has been successfully added!");
 					frame.invalidate();
 					frame.validate();
 					frame.repaint();
@@ -348,7 +354,7 @@ public class Frame extends JFrame {
 					loginService.insertOneGamePiece(gamepieceName);
 					reset();
 					buttonPanel.add(label0);
-					label0.setText("The operation has been successfully completed, but a GUI implementation of the results is not yet created. \n Please contact an administrator and try again.");
+					label0.setText("Thank you for logging in, " + gamepieceName + "!");
 					frame.invalidate();
 					frame.validate();
 					frame.repaint();
@@ -394,10 +400,13 @@ public class Frame extends JFrame {
 //					this.tableModel.addColumn("email");
 //					this.tableModel.addColumn("dob");
 					//System.out.println(fetched.get(0).name);
+					ArrayList<String> usernames = new ArrayList<String>();
 					for(FetchGamers gamer : fetched) {
 						//this.tableModel.addRow(new Object[] {gamer.username, gamer.name, gamer.email, gamer.dob});
 						System.out.println("username: " + gamer.username + " | name: " + gamer.name + " | email: " + gamer.email + " | DOB: " + gamer.dob);
+						usernames.add(gamer.username);
 					}
+					label0.setText(usernames.toString());
 //					this.table.update(getGraphics());
 				}
 			}
@@ -439,7 +448,7 @@ public class Frame extends JFrame {
 					registerService.insertOneGamePiece(gamepieceName);
 					reset();
 					buttonPanel.add(label0);
-					label0.setText("The operation has been successfully completed, but a GUI implementation of the results is not yet created. \n Please contact an administrator and try again.");
+					label0.setText("Thank you for registering, " + gamepieceName + "!");
 					frame.invalidate();
 					frame.validate();
 					frame.repaint();
