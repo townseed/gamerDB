@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import services.DatabaseConnectionService;
+import services.DeleteGamerService;
 import services.GamerService;
 import services.FetchGamers;
 import services.InsertGame_GamepieceService;
@@ -46,11 +47,13 @@ public class Frame extends JFrame {
 	private JButton getmatchButton;
 	private JButton addGamePieceButton;
 	private JButton submitButton;
+	private JButton deleteGamerButton;
 	private JTable displayTable;
 	private JComboBox<String> dropDown;
 	private GamerService gamerService;
 	private InsertGame_GamepieceService insertGamepieceService;
 	private InsertGamerService insertGamerService;
+	private DeleteGamerService deleteGamerService;
 	private DatabaseConnectionService connection;
 	private JScrollPane tablePane;
 	private JLabel label0;
@@ -109,13 +112,14 @@ public class Frame extends JFrame {
 		this.gamerService = new GamerService(this.connection);
 		this.insertGamepieceService = new InsertGame_GamepieceService(connection);
 		this.insertGamerService = new InsertGamerService(connection);
+		this.deleteGamerService = new DeleteGamerService(connection);
 		this.loginService = new LoginService(connection);
 		this.registerService = new RegisterService(connection);
 		this.submitButton = new JButton("Submit");
 		this.clearButton = new JButton("Clear");
 		this.loginButton = new JButton("                         Login                         ");
 		this.registerButton = new JButton("                         Register                         ");
-
+		this.deleteGamerButton = new JButton("delete one Gamer");
 //		this.tablePane = new JScrollPane(this.displayTable);
 //		this.displayTable.setFillsViewportHeight(true);
 //		this.add(tablePane, BorderLayout.CENTER);
@@ -166,12 +170,74 @@ public class Frame extends JFrame {
 		this.buttonPanel.add(spanLabel0);
 		this.buttonPanel.add(this.addButton);
 		this.buttonPanel.add(this.addGamePieceButton);
+		this.buttonPanel.add(deleteGamerButton);
 		this.buttonPanel.add(spanLabel3);
 		this.buttonPanel.add(label0);
 		text1.setHorizontalAlignment(JTextField.CENTER);
 		text2.setHorizontalAlignment(JTextField.CENTER);
 		// https://stackoverflow.com/questions/15507639/how-do-i-center-a-jtextfield
 
+		
+		class DeleteGamerListener implements ActionListener {
+			private DeleteGamerService DeleteGamerService;
+
+			public DeleteGamerListener(DeleteGamerService deleteGamerService) {
+				this.DeleteGamerService = deleteGamerService;
+			}
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// add a new gamer (pre-defined, eventually should take from textboxes)
+				reset();
+				prepareBasicText();
+				label1.setText("Input Gamer Name for deletion");
+				frame.invalidate();
+				frame.validate();
+				frame.repaint();
+				buttonPanel.add(submitButton);
+				buttonPanel.add(clearButton);
+				// Scanner in = new Scanner(System.in);
+				// String gamepieceName = in.next();
+				submitButton.addActionListener(new DeleteSubmitListener());
+				clearButton.addActionListener(new ClearListener());
+			}
+
+			class DeleteSubmitListener implements ActionListener {
+				private FetchGamers info;
+				private int done;
+				public DeleteSubmitListener() {
+					info = new FetchGamers("", "", "", "");
+					done = 0;
+				}
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
+
+					text1.setText("");
+					DeleteGamerService.deleteGamer(text1.getText());
+					reset();
+					buttonPanel.add(label0);
+					label0.setText("delete successful");
+					frame.invalidate();
+					frame.validate();
+					frame.repaint();
+					done = 0;
+					text1.setText("");
+					}
+				}
+			
+			class ClearListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					text1.setText("");
+				}
+
+			}
+
+			}
 		class AddListener implements ActionListener {
 			private InsertGamerService InsertGamerService;
 
@@ -581,6 +647,7 @@ public class Frame extends JFrame {
 		this.addGamePieceButton.addActionListener(new AddGamePiecesListener(insertGamepieceService));
 		this.loginButton.addActionListener(new LoginListener(loginService));
 		this.registerButton.addActionListener(new RegisterListener(registerService));
+		this.deleteGamerButton.addActionListener(new DeleteGamerListener(deleteGamerService));
 	}
 
 	public void run() {
