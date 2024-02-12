@@ -214,9 +214,9 @@ public class Frame extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
-
-					text1.setText("");
+					
 					DeleteGamerService.deleteGamer(text1.getText());
+					text1.setText("");
 					reset();
 					buttonPanel.add(label0);
 					label0.setText("delete successful");

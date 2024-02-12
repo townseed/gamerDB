@@ -5,6 +5,5 @@ CREATE or alter PROCEDURE InsertGamer
 @DateOfBirth DATE
 AS
 BEGIN
-    INSERT INTO gamer (Username, [name], email, DateOfBirth)
-    VALUES (@Username, @Name, @Email, @DateOfBirth);
+    DELETE FROM gamer WHERE Username = @Username;
 END;

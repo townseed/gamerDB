@@ -15,13 +15,13 @@ public class DeleteGamerService {
 	}
 	
 	public boolean deleteGamer(String userName) {
-		String query = "{call deleteGamer(?)}";
+		String query = "{? = call deleteGamer(?)}";
 		int returnedVal = -1;
 		
 		try {
 			CallableStatement statement = this.dbService.getConnection().prepareCall(query);
-			// statement.registerOutParameter(1, java.sql.Types.INTEGER);
-			statement.setString(1, userName);
+			statement.registerOutParameter(1, java.sql.Types.INTEGER);
+			statement.setString(2, userName);
 			statement.execute();
 			returnedVal = statement.getInt(1);
 			if(returnedVal == 0) {
