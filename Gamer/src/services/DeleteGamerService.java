@@ -26,8 +26,10 @@ public class DeleteGamerService {
 			returnedVal = statement.getInt(1);
 			if(returnedVal == 0) {
 				System.out.println("delete completed successfully!");
-			}else if (returnedVal == -1) {
+				return true;
+			}else if (returnedVal == 1) {
 				System.out.println("delete not executed");
+				return false;
 			}
 			else {
 				System.out.println("from gamePieceService: Error in SQL execution");
@@ -37,15 +39,6 @@ public class DeleteGamerService {
 			e.printStackTrace();
 			return false;
 		}
-		if(returnedVal == 0) return true;
-//		if(returnedVal == 1) {
-//			JOptionPane.showMessageDialog(null, "Failed to add new soda: name cannot be empty");
-//			return false;
-//		}
-//		if(returnedVal == 2) {
-//			JOptionPane.showMessageDialog(null, "Failed to add new soda: soda already exists");
-//			return false;
-//		}
 		return true;
 	}
 

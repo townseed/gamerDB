@@ -204,26 +204,31 @@ public class Frame extends JFrame {
 
 			class DeleteSubmitListener implements ActionListener {
 				private FetchGamers info;
-				private int done;
+				private boolean done;
 				public DeleteSubmitListener() {
 					info = new FetchGamers("", "", "", "");
-					done = 0;
+					done = false;
 				}
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
-					
-					DeleteGamerService.deleteGamer(text1.getText());
+					String text = text1.getText();
+					done = DeleteGamerService.deleteGamer(text);
 					text1.setText("");
 					reset();
 					buttonPanel.add(label0);
-					label0.setText("delete successful");
+					if(done) {
+						label0.setText("<html>The deletion of Gamer \"" + text + "\"was successful!<\\html>");
+					}
+					else {
+						label0.setText("<html>Error: Gamer \"" + text + "\" was not found in the database.");
+					}
 					frame.invalidate();
 					frame.validate();
 					frame.repaint();
-					done = 0;
+					done = false;
 					text1.setText("");
 					}
 				}
