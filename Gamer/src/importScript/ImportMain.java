@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class ImportMain {
 
+
 	public static void main(String[] args) {
 		ArrayList<String> queries = manageScanner();
 		// manageConnection(queries);
@@ -18,6 +19,7 @@ public class ImportMain {
 		// Starting source for scanner code = https://www.javatpoint.com/how-to-read-csv-file-in-java
 		Scanner scanner = null;
 		String firstLine = null;
+		ArrayList<ArrayList<String>> GameList = new ArrayList<ArrayList<String>>();
 		ArrayList<String> columnHeaders = new ArrayList<String>();
 		ArrayList<String> columnHeadersGamer = new ArrayList<String>();
 		ArrayList<String> columnHeadersMatch = new ArrayList<String>();

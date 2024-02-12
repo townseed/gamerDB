@@ -20,35 +20,17 @@ public class InsertGame_GamepieceService {
 			return false;
 		}
 		
-		String query = "{? = call [dbo].[InsertGamePieces](?)}";
-		int returnedVal = -1;
+		String query = "insert into gamepiece([name]) values(?)";
 		
 		try {
 			CallableStatement statement = this.dbService.getConnection().prepareCall(query);
-			statement.registerOutParameter(1, java.sql.Types.INTEGER);
-			statement.setString(2, gamePieceName);
+			statement.setString(1, gamePieceName);
 			statement.execute();
-			returnedVal = statement.getInt(1);
-			if(returnedVal == -1 || returnedVal == 0) {
-				System.out.println("Add completed successfully!");
-			}
-			else {
-				System.out.println("from gamePieceService: Error in SQL execution");
-			}
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			return false;
 		}
-		if(returnedVal == 0) return true;
-//		if(returnedVal == 1) {
-//			JOptionPane.showMessageDialog(null, "Failed to add new soda: name cannot be empty");
-//			return false;
-//		}
-//		if(returnedVal == 2) {
-//			JOptionPane.showMessageDialog(null, "Failed to add new soda: soda already exists");
-//			return false;
-//		}
 		return true;
 	}
 
