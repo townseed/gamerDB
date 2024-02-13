@@ -21,8 +21,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import services.DatabaseConnectionService;
+import services.DeleteGameService;
 import services.DeleteGamepieceService;
 import services.DeleteGamerService;
+import services.DeleteMatchService;
 import services.GamerService;
 import services.FetchGamers;
 import services.InsertGame_GamepieceService;
@@ -48,8 +50,10 @@ public class Frame extends JFrame {
 	private JButton getmatchButton;
 	private JButton addGamePieceButton;
 	private JButton submitButton;
+	private JButton deleteGameButton;
 	private JButton deleteGamerButton;
 	private JButton deleteGamePieceButton;
+	private JButton deleteMatchButton;
 	private JTable displayTable;
 	private JComboBox<String> dropDown;
 	private GamerService gamerService;
@@ -57,6 +61,8 @@ public class Frame extends JFrame {
 	private InsertGamerService insertGamerService;
 	private DeleteGamerService deleteGamerService;
 	private DeleteGamepieceService deleteGamepieceService;
+	private DeleteGameService deleteGameService;
+	private DeleteMatchService deleteMatchService;
 	private DatabaseConnectionService connection;
 	private JScrollPane tablePane;
 	private JLabel label0;
@@ -77,8 +83,6 @@ public class Frame extends JFrame {
 	private JLabel spanLabel5 = new JLabel(
 			"-                                                                                                                                                                                                                                                    -");
 	private JFrame frame = this;
-	private LoginService loginService;
-	private RegisterService registerService;
 
 	public Frame() {
 		tableModel = new DefaultTableModel();
@@ -116,11 +120,13 @@ public class Frame extends JFrame {
 		this.insertGamerService = new InsertGamerService(connection);
 		this.deleteGamerService = new DeleteGamerService(connection);
 		this.deleteGamepieceService = new DeleteGamepieceService(connection);
-		this.loginService = new LoginService(connection);
-		this.registerService = new RegisterService(connection);
+		this.deleteGameService = new DeleteGameService(connection);
+		this.deleteMatchService = new DeleteMatchService(connection);
 		this.submitButton = new JButton("Submit");
 		this.clearButton = new JButton("Clear");
 		this.deleteGamerButton = new JButton("Remove one Gamer");
+		this.deleteGameButton = new JButton("Remove one Game");
+		this.deleteMatchButton = new JButton("Remove one Match");
 //		this.tablePane = new JScrollPane(this.displayTable);
 //		this.displayTable.setFillsViewportHeight(true);
 //		this.add(tablePane, BorderLayout.CENTER);
@@ -171,6 +177,8 @@ public class Frame extends JFrame {
 		this.buttonPanel.add(spanLabel5);
 		this.buttonPanel.add(deleteGamerButton);
 		this.buttonPanel.add(deleteGamePieceButton);
+		this.buttonPanel.add(deleteGameButton);
+		this.buttonPanel.add(deleteMatchButton);
 		this.buttonPanel.add(spanLabel3);
 		this.buttonPanel.add(label0);
 		text1.setHorizontalAlignment(JTextField.CENTER);
@@ -243,6 +251,72 @@ public class Frame extends JFrame {
 			}
 
 			}
+		class DeleteGameListener implements ActionListener {
+			private DeleteGameService DeleteGameService;
+
+			public DeleteGameListener(DeleteGameService deleteGameService) {
+				this.DeleteGameService = deleteGameService;
+			}
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// add a new gamer (pre-defined, eventually should take from textboxes)
+				// ** not properly implemented yet **
+				reset();
+				prepareBasicText();
+				label1.setText("Input Game Name for deletion");
+				frame.invalidate();
+				frame.validate();
+				frame.repaint();
+				buttonPanel.add(submitButton);
+				buttonPanel.add(clearButton);
+				// Scanner in = new Scanner(System.in);
+				// String gamepieceName = in.next();
+				submitButton.addActionListener(new DeleteSubmitListener());
+				clearButton.addActionListener(new ClearListener());
+			}
+
+			class DeleteSubmitListener implements ActionListener {
+				private FetchGamers info;
+				private boolean done;
+				public DeleteSubmitListener() {
+					info = new FetchGamers("", "", "", "");
+					done = false;
+				}
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
+					String text = text1.getText();
+					done = DeleteGameService.deleteGamer(text);
+					text1.setText("");
+					reset();
+					buttonPanel.add(label0);
+					if(done) {
+						label0.setText("<html>The deletion of Game \"" + text + "\"was successful!<\\html>");
+					}
+					else {
+						label0.setText("<html>Error: Game \"" + text + "\" was not found in the database.");
+					}
+					frame.invalidate();
+					frame.validate();
+					frame.repaint();
+					done = false;
+					text1.setText("");
+					}
+				}
+			
+			class ClearListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					text1.setText("");
+				}
+
+			}
+
+			}
 		class DeleteGamepieceListener implements ActionListener {
 			private DeleteGamepieceService DeleteGamepieceService;
 
@@ -289,6 +363,75 @@ public class Frame extends JFrame {
 					}
 					else {
 						label0.setText("<html>Error: Game Piece \"" + text + "\" was not found in the database.");
+					}
+					frame.invalidate();
+					frame.validate();
+					frame.repaint();
+					done = false;
+					text1.setText("");
+					}
+				}
+			
+			class ClearListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					text1.setText("");
+				}
+
+			}
+
+			}
+		class DeleteMatchListener implements ActionListener {
+			private DeleteMatchService DeleteMatchService;
+
+			public DeleteMatchListener(DeleteMatchService DeleteMatchService) {
+				this.DeleteMatchService = DeleteMatchService;
+			}
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// add a new gamer (pre-defined, eventually should take from textboxes)
+				reset();
+				prepareBasicText();
+				label1.setText("Match Date for Deletion (MM-DD-YYYY)");
+				frame.invalidate();
+				frame.validate();
+				frame.repaint();
+				label2.setText("Match Location for Deletion");
+				buttonPanel.add(label2);
+				buttonPanel.add(text2);
+				buttonPanel.add(submitButton);
+				buttonPanel.add(clearButton);
+				// Scanner in = new Scanner(System.in);
+				// String gamepieceName = in.next();
+				submitButton.addActionListener(new DeleteSubmitListener());
+				clearButton.addActionListener(new ClearListener());
+			}
+
+			class DeleteSubmitListener implements ActionListener {
+				private FetchGamers info;
+				private boolean done;
+				public DeleteSubmitListener() {
+					info = new FetchGamers("", "", "", "");
+					done = false;
+				}
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
+					String date = text1.getText();
+					String location = text2.getText();
+					done = DeleteMatchService.deleteGamer(date, location);
+					text1.setText("");
+					reset();
+					buttonPanel.add(label0);
+					if(done) {
+						label0.setText("<html>The deletion of the Match on " + date + " at " + location + " was successful!<\\html>");
+					}
+					else {
+						label0.setText("<html>Error: The Match on " + date + " at " + location + " was not found in the database.");
 					}
 					frame.invalidate();
 					frame.validate();
@@ -599,6 +742,8 @@ public class Frame extends JFrame {
 		this.addGamePieceButton.addActionListener(new AddGamePiecesListener(insertGamepieceService));
 		this.deleteGamerButton.addActionListener(new DeleteGamerListener(deleteGamerService));
 		this.deleteGamePieceButton.addActionListener(new DeleteGamepieceListener(deleteGamepieceService));
+		this.deleteGameButton.addActionListener(new DeleteGameListener(deleteGameService));
+		this.deleteMatchButton.addActionListener(new DeleteMatchListener(deleteMatchService));
 	}
 
 	public void run() {
