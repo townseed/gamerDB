@@ -401,8 +401,12 @@ public class Frame extends JFrame {
 				buttonPanel.add(label0);
 				String superString = "";
 				ArrayList<String> strings = this.gamerService.getAllGameNames();
-				superString = strings.toString();
-				label0.setText(superString);
+				StringBuilder bob = new StringBuilder();
+				bob.append("<html>Game Name");
+				for (String string : strings) {
+					bob.append(string + "<br>");
+				}
+				label0.setText(bob.toString());
 			}
 
 		}
@@ -440,8 +444,6 @@ public class Frame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				// add a new gamer (pre-defined, eventually should take from textboxes)
 				prepareBasicText();
 				label1.setText("Input Username to search by");
 				frame.invalidate();
@@ -449,11 +451,8 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
-				// Scanner in = new Scanner(System.in);
-				// String gamepieceName = in.next();
 				submitButton.addActionListener(new SubmitListener(gamerService));
 				clearButton.addActionListener(new ClearListener());
-				// this.InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
 			}
 
 			class SubmitListener implements ActionListener {
@@ -592,9 +591,7 @@ public class Frame extends JFrame {
 			}
 		}
 
-		this.goButton
-				.addActionListener(new GoListener(this.dropDown, this.gamerService, this.displayTable, tableModel));
-		// temp button listener
+		this.goButton.addActionListener(new GoListener(this.dropDown, this.gamerService, this.displayTable, tableModel));
 		this.addButton.addActionListener(new AddListener(insertGamerService));
 		this.getgameButton.addActionListener(new GetGameListener(gamerService));
 		this.getgamepieceButton.addActionListener(new GetGamePieceListener(gamerService));
