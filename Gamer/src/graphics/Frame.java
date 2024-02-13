@@ -54,6 +54,10 @@ public class Frame extends JFrame {
 	private JButton deleteGamerButton;
 	private JButton deleteGamePieceButton;
 	private JButton deleteMatchButton;
+	private JButton getLeaderboardButton;
+	private JButton updateGamerButton;
+	private JButton updateGameButton;
+	private JButton updateGamePieceButton;
 	private JTable displayTable;
 	private JComboBox<String> dropDown;
 	private GamerService gamerService;
@@ -82,6 +86,8 @@ public class Frame extends JFrame {
 			"-                                                                                                                                                                                                                                                    -");
 	private JLabel spanLabel5 = new JLabel(
 			"-                                                                                                                                                                                                                                                    -");
+	private JLabel spanLabel6 = new JLabel(
+			"-                                                                                                                                                                                                                                                    -");
 	private JFrame frame = this;
 
 	public Frame() {
@@ -92,8 +98,12 @@ public class Frame extends JFrame {
 		this.getgamepieceButton = new JButton("Get All Game Pieces");
 		this.getmatchButton = new JButton("Get Matches from Username");
 		this.addButton = new JButton("Insert a Custom Gamer");
-		this.addGamePieceButton = new JButton("Insert a Custom Gamepiece");
-		this.deleteGamePieceButton = new JButton("Remove a Gamepiece");
+		this.addGamePieceButton = new JButton("Insert a Custom Game Piece");
+		this.deleteGamePieceButton = new JButton("Remove a Game Piece");
+		getLeaderboardButton = new JButton("View the Leaderboard");
+		updateGamerButton = new JButton("Update a Gamer");
+		updateGameButton = new JButton("Update a Game");
+		updateGamePieceButton = new JButton("Update a Game Piece");
 		label0 = new JLabel("Output");
 		label0.setText(
 				"Welcome to the Gamer Interface!");// If you haven't already, please log in to ensure a secure environment!");
@@ -173,6 +183,7 @@ public class Frame extends JFrame {
 		this.buttonPanel.add(this.getmatchButton);
 		this.buttonPanel.add(spanLabel0);
 		this.buttonPanel.add(this.addButton);
+		this.buttonPanel.add(getLeaderboardButton);
 		this.buttonPanel.add(this.addGamePieceButton);
 		this.buttonPanel.add(spanLabel5);
 		this.buttonPanel.add(deleteGamerButton);
@@ -180,6 +191,10 @@ public class Frame extends JFrame {
 		this.buttonPanel.add(deleteGameButton);
 		this.buttonPanel.add(deleteMatchButton);
 		this.buttonPanel.add(spanLabel3);
+		this.buttonPanel.add(updateGamerButton);
+		this.buttonPanel.add(updateGamePieceButton);
+		this.buttonPanel.add(updateGamerButton);
+		this.buttonPanel.add(spanLabel6);
 		this.buttonPanel.add(label0);
 		text1.setHorizontalAlignment(JTextField.CENTER);
 		text2.setHorizontalAlignment(JTextField.CENTER);
