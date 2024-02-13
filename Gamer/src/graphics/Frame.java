@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import services.DatabaseConnectionService;
+import services.DeleteGamepieceService;
 import services.DeleteGamerService;
 import services.GamerService;
 import services.FetchGamers;
@@ -48,12 +49,14 @@ public class Frame extends JFrame {
 	private JButton addGamePieceButton;
 	private JButton submitButton;
 	private JButton deleteGamerButton;
+	private JButton deleteGamePieceButton;
 	private JTable displayTable;
 	private JComboBox<String> dropDown;
 	private GamerService gamerService;
 	private InsertGame_GamepieceService insertGamepieceService;
 	private InsertGamerService insertGamerService;
 	private DeleteGamerService deleteGamerService;
+	private DeleteGamepieceService deleteGamepieceService;
 	private DatabaseConnectionService connection;
 	private JScrollPane tablePane;
 	private JLabel label0;
@@ -74,8 +77,6 @@ public class Frame extends JFrame {
 	private JLabel spanLabel5 = new JLabel(
 			"-                                                                                                                                                                                                                                                    -");
 	private JFrame frame = this;
-	private JButton loginButton;
-	private JButton registerButton;
 	private LoginService loginService;
 	private RegisterService registerService;
 
@@ -88,6 +89,7 @@ public class Frame extends JFrame {
 		this.getmatchButton = new JButton("Get Matches from Username");
 		this.addButton = new JButton("Insert a Custom Gamer");
 		this.addGamePieceButton = new JButton("Insert a Custom Gamepiece");
+		this.deleteGamePieceButton = new JButton("Remove a Gamepiece");
 		label0 = new JLabel("Output");
 		label0.setText(
 				"Welcome to the Gamer Interface!");// If you haven't already, please log in to ensure a secure environment!");
@@ -113,13 +115,12 @@ public class Frame extends JFrame {
 		this.insertGamepieceService = new InsertGame_GamepieceService(connection);
 		this.insertGamerService = new InsertGamerService(connection);
 		this.deleteGamerService = new DeleteGamerService(connection);
+		this.deleteGamepieceService = new DeleteGamepieceService(connection);
 		this.loginService = new LoginService(connection);
 		this.registerService = new RegisterService(connection);
 		this.submitButton = new JButton("Submit");
 		this.clearButton = new JButton("Clear");
-		this.loginButton = new JButton("                         Login                         ");
-		this.registerButton = new JButton("                         Register                         ");
-		this.deleteGamerButton = new JButton("delete one Gamer");
+		this.deleteGamerButton = new JButton("Remove one Gamer");
 //		this.tablePane = new JScrollPane(this.displayTable);
 //		this.displayTable.setFillsViewportHeight(true);
 //		this.add(tablePane, BorderLayout.CENTER);
@@ -160,9 +161,6 @@ public class Frame extends JFrame {
 		this.setSize(Frame.WIDTH, Frame.HEIGHT);
 		// https://stackoverflow.com/questions/32467246/how-to-start-something-on-a-new-line-in-java-swing
 		add(buttonPanel, BorderLayout.CENTER);
-		this.buttonPanel.add(loginButton);
-		this.buttonPanel.add(registerButton);
-		this.buttonPanel.add(spanLabel5);
 		this.buttonPanel.add(this.goButton);
 		this.buttonPanel.add(this.getgameButton);
 		this.buttonPanel.add(this.getgamepieceButton);
@@ -170,7 +168,9 @@ public class Frame extends JFrame {
 		this.buttonPanel.add(spanLabel0);
 		this.buttonPanel.add(this.addButton);
 		this.buttonPanel.add(this.addGamePieceButton);
+		this.buttonPanel.add(spanLabel5);
 		this.buttonPanel.add(deleteGamerButton);
+		this.buttonPanel.add(deleteGamePieceButton);
 		this.buttonPanel.add(spanLabel3);
 		this.buttonPanel.add(label0);
 		text1.setHorizontalAlignment(JTextField.CENTER);
@@ -224,6 +224,71 @@ public class Frame extends JFrame {
 					}
 					else {
 						label0.setText("<html>Error: Gamer \"" + text + "\" was not found in the database.");
+					}
+					frame.invalidate();
+					frame.validate();
+					frame.repaint();
+					done = false;
+					text1.setText("");
+					}
+				}
+			
+			class ClearListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					text1.setText("");
+				}
+
+			}
+
+			}
+		class DeleteGamepieceListener implements ActionListener {
+			private DeleteGamepieceService DeleteGamepieceService;
+
+			public DeleteGamepieceListener(DeleteGamepieceService DeleteGamepieceService) {
+				this.DeleteGamepieceService = DeleteGamepieceService;
+			}
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// add a new gamer (pre-defined, eventually should take from textboxes)
+				reset();
+				prepareBasicText();
+				label1.setText("Game Piece Name for Deletion");
+				frame.invalidate();
+				frame.validate();
+				frame.repaint();
+				buttonPanel.add(submitButton);
+				buttonPanel.add(clearButton);
+				// Scanner in = new Scanner(System.in);
+				// String gamepieceName = in.next();
+				submitButton.addActionListener(new DeleteSubmitListener());
+				clearButton.addActionListener(new ClearListener());
+			}
+
+			class DeleteSubmitListener implements ActionListener {
+				private FetchGamers info;
+				private boolean done;
+				public DeleteSubmitListener() {
+					info = new FetchGamers("", "", "", "");
+					done = false;
+				}
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
+					String text = text1.getText();
+					done = DeleteGamepieceService.deleteGamer(text);
+					text1.setText("");
+					reset();
+					buttonPanel.add(label0);
+					if(done) {
+						label0.setText("<html>The deletion of Game Piece \"" + text + "\"was successful!<\\html>");
+					}
+					else {
+						label0.setText("<html>Error: Game Piece \"" + text + "\" was not found in the database.");
 					}
 					frame.invalidate();
 					frame.validate();
@@ -481,64 +546,6 @@ public class Frame extends JFrame {
 
 		}
 
-		class LoginListener implements ActionListener {
-			private LoginService loginService;
-
-			public LoginListener(LoginService service) {
-				this.loginService = service;
-			}
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// add a new gamer (pre-defined, eventually should take from textboxes)
-				prepareBasicText();
-				label1.setText("Please Enter Your Username");
-				buttonPanel.add(label2);
-				label2.setText("Please Enter Your Password");
-				buttonPanel.add(text2);
-				buttonPanel.add(spanLabel4);
-				buttonPanel.add(submitButton);
-				buttonPanel.add(clearButton);
-				frame.invalidate();
-				frame.validate();
-				frame.repaint();
-				// Scanner in = new Scanner(System.in);
-				// String gamepieceName = in.next();
-				submitButton.addActionListener(new SubmitListener());
-				clearButton.addActionListener(new ClearListener());
-				// this.InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
-			}
-
-			class SubmitListener implements ActionListener {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
-					String gamepieceName = text1.getText();
-					loginService.insertOneGamePiece(gamepieceName);
-					reset();
-					buttonPanel.add(label0);
-					label0.setText("Thank you for logging in, " + gamepieceName + "!");
-					frame.invalidate();
-					frame.validate();
-					frame.repaint();
-				}
-
-			}
-
-			class ClearListener implements ActionListener {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					text1.setText("");
-					text2.setText("");
-				}
-
-			}
-
-		}
-
 		this.setResizable(true);
 		this.add(buttonPanel, BorderLayout.CENTER);
 		class GoListener implements ActionListener {
@@ -585,63 +592,6 @@ public class Frame extends JFrame {
 			}
 		}
 
-		class RegisterListener implements ActionListener {
-			private RegisterService registerService;
-
-			public RegisterListener(RegisterService service) {
-				this.registerService = service;
-			}
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// add a new gamer (pre-defined, eventually should take from textboxes)
-				prepareBasicText();
-				label1.setText("Please Enter Your Username");
-				buttonPanel.add(label2);
-				label2.setText("Please Enter Your Password");
-				buttonPanel.add(text2);
-				buttonPanel.add(spanLabel4);
-				buttonPanel.add(submitButton);
-				buttonPanel.add(clearButton);
-				frame.invalidate();
-				frame.validate();
-				frame.repaint();
-				// Scanner in = new Scanner(System.in);
-				// String gamepieceName = in.next();
-				submitButton.addActionListener(new SubmitListener());
-				clearButton.addActionListener(new ClearListener());
-				// this.InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
-			}
-
-			class SubmitListener implements ActionListener {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
-					String gamepieceName = text1.getText();
-					registerService.insertOneGamePiece(gamepieceName);
-					reset();
-					buttonPanel.add(label0);
-					label0.setText("Thank you for registering, " + gamepieceName + "!");
-					frame.invalidate();
-					frame.validate();
-					frame.repaint();
-				}
-
-			}
-
-			class ClearListener implements ActionListener {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					text1.setText("");
-					text2.setText("");
-				}
-
-			}
-
-		}
 		this.goButton
 				.addActionListener(new GoListener(this.dropDown, this.gamerService, this.displayTable, tableModel));
 		// temp button listener
@@ -650,9 +600,8 @@ public class Frame extends JFrame {
 		this.getgamepieceButton.addActionListener(new GetGamePieceListener(gamerService));
 		this.getmatchButton.addActionListener(new GetMatchListener(gamerService));
 		this.addGamePieceButton.addActionListener(new AddGamePiecesListener(insertGamepieceService));
-		this.loginButton.addActionListener(new LoginListener(loginService));
-		this.registerButton.addActionListener(new RegisterListener(registerService));
 		this.deleteGamerButton.addActionListener(new DeleteGamerListener(deleteGamerService));
+		this.deleteGamePieceButton.addActionListener(new DeleteGamepieceListener(deleteGamepieceService));
 	}
 
 	public void run() {
