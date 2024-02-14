@@ -58,8 +58,12 @@ public class Frame extends JFrame {
 	private JButton updateGamerButton;
 	private JButton updateGameButton;
 	private JButton updateGamePieceButton;
+	
+	// display table
 	private JTable displayTable;
 	private JComboBox<String> dropDown;
+	
+	// all services
 	private GamerService gamerService;
 	private InsertGame_GamepieceService insertGamepieceService;
 	private InsertGamerService insertGamerService;
@@ -67,6 +71,7 @@ public class Frame extends JFrame {
 	private DeleteGamepieceService deleteGamepieceService;
 	private DeleteGameService deleteGameService;
 	private DeleteMatchService deleteMatchService;
+	
 	private DatabaseConnectionService connection;
 	private JScrollPane tablePane;
 	private JLabel label0;
@@ -104,9 +109,11 @@ public class Frame extends JFrame {
 		updateGamerButton = new JButton("Update a Gamer");
 		updateGameButton = new JButton("Update a Game");
 		updateGamePieceButton = new JButton("Update a Game Piece");
+		
 		label0 = new JLabel("Output");
 		label0.setText(
-				"Welcome to the Gamer Interface!");// If you haven't already, please log in to ensure a secure environment!");
+				"Welcome to the Gamer Interface!");
+		// If you haven't already, please log in to ensure a secure environment!");
 		label1 = new JLabel("Test");
 		label1.setText("Label Text");
 		label2 = new JLabel("Test");
@@ -163,6 +170,7 @@ public class Frame extends JFrame {
 		frame.repaint();
 	}
 
+	// display one line of text 
 	public void prepareBasicText() {
 		reset();
 		buttonPanel.add(spanLabel1);
@@ -210,7 +218,6 @@ public class Frame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
 				prepareBasicText();
 				label1.setText("Input Gamer Name for deletion");
@@ -219,8 +226,6 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
-				// Scanner in = new Scanner(System.in);
-				// String gamepieceName = in.next();
 				submitButton.addActionListener(new DeleteSubmitListener());
 				clearButton.addActionListener(new ClearListener());
 			}
@@ -264,8 +269,8 @@ public class Frame extends JFrame {
 				}
 
 			}
-
-			}
+		}
+		
 		class DeleteGameListener implements ActionListener {
 			private DeleteGameService DeleteGameService;
 
@@ -546,8 +551,9 @@ public class Frame extends JFrame {
 		}
 		class GetGameListener implements ActionListener {
 			private GamerService gamerService;
-			private JTable table;
-			private DefaultTableModel tableModel;
+			// private JTable table;
+			// private DefaultTableModel tableModel; 
+			// not used code above.
 
 			public GetGameListener(GamerService gamerS) {
 				this.gamerService = gamerS;
@@ -557,7 +563,7 @@ public class Frame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				reset();
 				buttonPanel.add(label0);
-				String superString = "";
+				// String superString = "";
 				ArrayList<String> strings = this.gamerService.getAllGameNames();
 				StringBuilder bob = new StringBuilder();
 				bob.append("<html>Game Name");
