@@ -15,13 +15,41 @@ public class DeleteGameService {
 	}
 	
 	public boolean deleteGamer(String userName) {
-		String query = "{? = call DeleteGame(?)}";
+		String query = "{? = call DeleteGamer(?)}";
 		int returnedVal = -1;
 		
 		try {
 			CallableStatement statement = this.dbService.getConnection().prepareCall(query);
 			statement.registerOutParameter(1, java.sql.Types.INTEGER);
 			statement.setString(2, userName);
+			statement.execute();
+			returnedVal = statement.getInt(1);
+			if(returnedVal == 0) {
+				System.out.println("delete completed successfully!");
+				return true;
+			}else if (returnedVal == 1) {
+				System.out.println("delete not executed");
+				return false;
+			}
+			else {
+				System.out.println("from gamePieceService: Error in SQL execution");
+				return false;
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean deleteGame(String text) {
+		String query = "{? = call DeleteGame(?)}";
+		int returnedVal = -1;
+		
+		try {
+			CallableStatement statement = this.dbService.getConnection().prepareCall(query);
+			statement.registerOutParameter(1, java.sql.Types.INTEGER);
+			statement.setString(2, text);
 			statement.execute();
 			returnedVal = statement.getInt(1);
 			if(returnedVal == 0) {

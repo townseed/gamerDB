@@ -1,6 +1,7 @@
 package services;
 
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -150,6 +151,28 @@ public class GamerService {
 			return new TwinStringList();
 		}
 	}
+	
+	
+	public ArrayList<String> getGamePiecesByGame(String gameName){
+		ArrayList<String> results = new ArrayList<String>();
+		try {
+			String query = "select p.[name] as [Gamepiece Name] from gamepiece p join game g on g.id = p.gameID where g.[name] = ?\n";
+			PreparedStatement stmt = this.dbService.getConnection().prepareStatement(query);
+			stmt.setString(1, gameName);
+			ResultSet rs = stmt.executeQuery();
+			int GPnameIndex = rs.findColumn("Gamepiece Name");
+			while (rs.next()) {
+				results.add(rs.getString(GPnameIndex));
+			}
+			return results;
+		}
+		catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "Failed to retrieve gamepieces.");
+			ex.printStackTrace();
+			return new ArrayList<String>();
+		}
+	}
+	
 	public PentaStringList getUserMatchRecords(String username){
 		PentaStringList results = new PentaStringList();
 		try {
