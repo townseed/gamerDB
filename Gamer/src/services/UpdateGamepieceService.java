@@ -18,14 +18,13 @@ public class UpdateGamepieceService {
 	public int getGamer(String name) {
 		try {
 			Statement stmt = this.dbService.getConnection().createStatement();
-			String query = "select * from gamepiece join gamepieceHas on gamepiece.ID = gamepieceHas.gamepieceID join attribute on gamepieceHas.attributeID = attribute.ID  where name = '" + name + "'\n";
-			System.out.println(query);
+			String query = "select * from gamepiece join gamepieceHas on gamepiece.ID = gamepieceHas.gamepieceID join attribute on gamepieceHas.attributeID = attribute.ID  where gamepiece.name = '" + name + "'\n";
 			// later replace it with sp.
 			ResultSet rs = stmt.executeQuery(query);
-			int nameIndex = rs.findColumn("name");
+			int nameIndex = rs.findColumn("attributeID");
 			while (rs.next()) {
-				if(rs.getString(nameIndex) != null) {
-					return 1;
+				if(rs.getInt(nameIndex) > 0) {
+					return rs.getInt(nameIndex);
 				}
 			}
 			return 0;
@@ -36,17 +35,18 @@ public class UpdateGamepieceService {
 		}
 		
 	}
-	public boolean insertOneGamePiece(String gamePieceName) {
+	public boolean insertOneGamePiece(String gamePieceName, int ID) {
 		if (gamePieceName.length() > 20) {
 			System.out.println("Service error: gamePieceName length greater than 20");
 			return false;
 		}
-		
-		String query = "insert into gamepiece([name]) values(?)";
+		if(gamePieceName == null || gamePieceName.length() < 1) {
+			return false;
+		}
+		String query = "update dbo.attribute set name = '" + gamePieceName + "' where ID = " + ID;
 		
 		try {
 			CallableStatement statement = this.dbService.getConnection().prepareCall(query);
-			statement.setString(1, gamePieceName);
 			statement.execute();
 		} catch (SQLException e) {
 			

@@ -530,15 +530,15 @@ public class Frame extends JFrame {
 						text1.setText("");
 					}else {
 						info.email = text1.getText();
-					InsertGamerService.insertGamer(info);
-					reset();
-					buttonPanel.add(label0);
-					label0.setText("Add successful! Welcome to the system " + info.username);
-					frame.invalidate();
-					frame.validate();
-					frame.repaint();
-					done = 0;
-					text1.setText("");
+						InsertGamerService.insertGamer(info);
+						reset();
+						buttonPanel.add(label0);
+						label0.setText("Add successful! Welcome to the system " + info.username);
+						frame.invalidate();
+						frame.validate();
+						frame.repaint();
+						done = 0;
+						text1.setText("");
 					}
 				}
 
@@ -566,7 +566,7 @@ public class Frame extends JFrame {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
 				prepareBasicText();
-				label1.setText("Input new Gamer Name");
+				label1.setText("Input Current Game Piece Name");
 				frame.invalidate();
 				frame.validate();
 				frame.repaint();
@@ -580,10 +580,9 @@ public class Frame extends JFrame {
 			}
 
 			class SubmitListener implements ActionListener {
-				private FetchGamers info;
 				private int done;
+				private int test;
 				public SubmitListener() {
-					info = new FetchGamers("", "", "", "");
 					done = 0;
 				}
 
@@ -591,11 +590,12 @@ public class Frame extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
+					String nameAtt = "Error";
+					System.out.println(done);
 					if(done == 0) {
-					int test = UpdateGamepieceService.getGamer(text1.getText());
-						if(test == 1) {
-							info.name = text1.getText();
-							label1.setText("Hi "+ info.name + ", please type your desired new game piece attribute name, or leave it blank to not change it.");
+					test = UpdateGamepieceService.getGamer(text1.getText());
+						if(test > 0) {
+							label1.setText("Please type your desired new game piece attribute name, or leave it blank to not change it.");
 							done = 1;
 							text1.setText("");
 						}
@@ -605,7 +605,7 @@ public class Frame extends JFrame {
 							text1.setText("");
 							
 						}
-						else if(test == -1){
+						else if(test < 0){
 							done = 0;
 							reset();
 							label1.setText("There has been a mistake. Please reload this page.");
@@ -613,17 +613,17 @@ public class Frame extends JFrame {
 						}
 					}
 					else if(done == 1) {
-						info.username = text1.getText();
-						UpdateGamepieceService.insertOneGamePiece(info.username);
+						nameAtt = text1.getText();
+						UpdateGamepieceService.insertOneGamePiece(nameAtt, test);
+						reset();
+						buttonPanel.add(label0);
+						label0.setText("Add successful! Attribute " + nameAtt + " has been modified!");
+						frame.invalidate();
+						frame.validate();
+						frame.repaint();
+						done = 0;
+						text1.setText("");
 					}
-					reset();
-					buttonPanel.add(label0);
-					label0.setText("Add successful! Welcome to the system " + info.username);
-					frame.invalidate();
-					frame.validate();
-					frame.repaint();
-					done = 0;
-					text1.setText("");
 					}
 				}
 			class ClearListener implements ActionListener {
