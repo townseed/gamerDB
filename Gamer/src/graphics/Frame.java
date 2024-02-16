@@ -60,11 +60,11 @@ public class Frame extends JFrame {
 	private JButton updateGamerButton;
 	private JButton updateGameButton;
 	private JButton updateGamePieceButton;
-
+	
 	// display table
 	private JTable displayTable;
 	private JComboBox<String> dropDown;
-
+	
 	// all services
 	private GamerService gamerService;
 	private InsertGame_GamepieceService insertGamepieceService;
@@ -73,7 +73,7 @@ public class Frame extends JFrame {
 	private DeleteGamepieceService deleteGamepieceService;
 	private DeleteGameService deleteGameService;
 	private DeleteMatchService deleteMatchService;
-
+	
 	private DatabaseConnectionService connection;
 	private JScrollPane tablePane;
 	private JLabel label0;
@@ -104,10 +104,10 @@ public class Frame extends JFrame {
 		this.buttonPanel = new JPanel();
 		this.goButton = new JButton("Get All Gamer Info");
 		this.getgameButton = new JButton("Get All Game Names");
-		this.getgamepieceButton = new JButton("Get Game Pieces");
+		this.getgamepieceButton = new JButton("Get All Game Pieces");
 		this.getmatchButton = new JButton("Get Matches from Username");
-		this.addButton = new JButton("Insert a Custom Gamer");
-		this.addGamePieceButton = new JButton("Insert a Custom Game Piece");
+		this.addButton = new JButton("Insert a Gamer");
+		this.addGamePieceButton = new JButton("Insert a Game Piece");
 		this.deleteGamePieceButton = new JButton("Remove a Game Piece");
 		getLeaderboardButton = new JButton("View the Leaderboard");
 		updateGamerButton = new JButton("Update a Gamer");
@@ -169,7 +169,7 @@ public class Frame extends JFrame {
 		frame.repaint();
 	}
 
-	// display one line of text
+	// display one line of text 
 	public void prepareBasicText() {
 		reset();
 		buttonPanel.add(spanLabel1);
@@ -207,6 +207,7 @@ public class Frame extends JFrame {
 		text2.setHorizontalAlignment(JTextField.CENTER);
 		// https://stackoverflow.com/questions/15507639/how-do-i-center-a-jtextfield
 
+		
 		class DeleteGamerListener implements ActionListener {
 			private DeleteGamerService DeleteGamerService;
 
@@ -224,17 +225,17 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
-
+				
 				// clear all listenner
 				ActionListener[] listeners = submitButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					submitButton.removeActionListener(listener);
-				}
-				listeners = clearButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					clearButton.removeActionListener(listener);
-				}
-
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
+		   
 				submitButton.addActionListener(new DeleteSubmitListener());
 				clearButton.addActionListener(new ClearListener());
 			}
@@ -250,7 +251,7 @@ public class Frame extends JFrame {
 					String text = text1.getText();
 					reset();
 					buttonPanel.add(label0);
-					if (DeleteGamerService.deleteGamer(text)) {
+					if(DeleteGamerService.deleteGamer(text)) {
 						label0.setText("<html>The deletion of Gamer \"" + text + "\"was successful!");
 					}
 					else {
@@ -258,10 +259,10 @@ public class Frame extends JFrame {
 					}
 					frame.invalidate();
 					frame.validate();
-					frame.repaint();					}			
-			}
-			}
-
+					frame.repaint();
+					}
+				}
+			
 			class ClearListener implements ActionListener {
 
 				@Override
@@ -271,7 +272,7 @@ public class Frame extends JFrame {
 
 			}
 		}
-
+		
 		class DeleteGameListener implements ActionListener {
 			private DeleteGameService DeleteGameService;
 
@@ -285,22 +286,22 @@ public class Frame extends JFrame {
 				// ** not properly implemented yet **
 				reset();
 				prepareBasicText();
-				label1.setText("Input Game Name for deletion");
+				label1.setText("Input Game Name to delete");
 				frame.invalidate();
 				frame.validate();
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
-
+				
 				// clear all listenner
 				ActionListener[] listeners = submitButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					submitButton.removeActionListener(listener);
-				}
-				listeners = clearButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					clearButton.removeActionListener(listener);
-				}
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				// Scanner in = new Scanner(System.in);
 				// String gamepieceName = in.next();
 				submitButton.addActionListener(new DeleteSubmitListener());
@@ -318,17 +319,18 @@ public class Frame extends JFrame {
 					String text = text1.getText();
 					reset();
 					buttonPanel.add(label0);
-					if (DeleteGameService.deleteGame(text)) {
+					if(DeleteGameService.deleteGamer(text)) {
 						label0.setText("<html>The deletion of Game \"" + text + "\"was successful!");
-					} else {
+					}
+					else {
 						label0.setText("<html>Error: Game \"" + text + "\" was not found in the database.");
 					}
 					frame.invalidate();
 					frame.validate();
 					frame.repaint();
+					}
 				}
-			}
-
+			
 			class ClearListener implements ActionListener {
 
 				@Override
@@ -338,7 +340,7 @@ public class Frame extends JFrame {
 
 			}
 
-		}
+			}
 		class DeleteGamepieceListener implements ActionListener {
 			private DeleteGamepieceService DeleteGamepieceService;
 
@@ -351,22 +353,22 @@ public class Frame extends JFrame {
 				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
 				prepareBasicText();
-				label1.setText("Game Piece Name for Deletion");
+				label1.setText("Game Piece Name for Deletion"); //this needs to specify what game. TODO: fix this
 				frame.invalidate();
 				frame.validate();
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
-
+				
 				// clear all listenner
 				ActionListener[] listeners = submitButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					submitButton.removeActionListener(listener);
-				}
-				listeners = clearButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					clearButton.removeActionListener(listener);
-				}
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				// Scanner in = new Scanner(System.in);
 				// String gamepieceName = in.next();
 				submitButton.addActionListener(new DeleteSubmitListener());
@@ -384,17 +386,18 @@ public class Frame extends JFrame {
 					String text = text1.getText();
 					reset();
 					buttonPanel.add(label0);
-					if (DeleteGamepieceService.deleteGamer(text)) {
+					if(DeleteGamepieceService.deleteGamer(text)) {
 						label0.setText("<html>The deletion of Game Piece \"" + text + "\"was successful!<\\html>");
-					} else {
+					}
+					else {
 						label0.setText("<html>Error: Game Piece \"" + text + "\" was not found in the database.");
 					}
 					frame.invalidate();
 					frame.validate();
 					frame.repaint();
+					}
 				}
-			}
-
+			
 			class ClearListener implements ActionListener {
 
 				@Override
@@ -404,7 +407,7 @@ public class Frame extends JFrame {
 
 			}
 
-		}
+			}
 		class DeleteMatchListener implements ActionListener {
 			private DeleteMatchService DeleteMatchService;
 
@@ -421,21 +424,21 @@ public class Frame extends JFrame {
 				frame.invalidate();
 				frame.validate();
 				frame.repaint();
-				label2.setText("Match Location for Deletion");
+				label2.setText("Match Location");
 				buttonPanel.add(label2);
 				buttonPanel.add(text2);
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
-
+				
 				// clear all listenner
 				ActionListener[] listeners = submitButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					submitButton.removeActionListener(listener);
-				}
-				listeners = clearButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					clearButton.removeActionListener(listener);
-				}
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				// Scanner in = new Scanner(System.in);
 				// String gamepieceName = in.next();
 				submitButton.addActionListener(new DeleteSubmitListener());
@@ -454,19 +457,18 @@ public class Frame extends JFrame {
 					String location = text2.getText();
 					reset();
 					buttonPanel.add(label0);
-					if (DeleteMatchService.deleteGamer(date, location)) {
-						label0.setText("<html>The deletion of the Match on " + date + " at " + location
-								+ " was successful!<\\html>");
-					} else {
-						label0.setText("<html>Error: The Match on " + date + " at " + location
-								+ " was not found in the database.");
+					if(DeleteMatchService.deleteGamer(date, location)) {
+						label0.setText("<html>The deletion of the Match on " + date + " at " + location + " was successful!<\\html>");
+					}
+					else {
+						label0.setText("<html>Error: The Match on " + date + " at " + location + " was not found in the database.");
 					}
 					frame.invalidate();
 					frame.validate();
 					frame.repaint();
+					}
 				}
-			}
-
+			
 			class ClearListener implements ActionListener {
 
 				@Override
@@ -476,8 +478,8 @@ public class Frame extends JFrame {
 
 			}
 
-		}
-		class AddListener implements ActionListener {
+			}
+		class AddListener implements ActionListener { //TODO: make more clear names
 			private InsertGamerService InsertGamerService;
 
 			public AddListener(InsertGamerService insertGamerService) {
@@ -486,7 +488,6 @@ public class Frame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
 				prepareBasicText();
 				label1.setText("Input new Gamer Name");
@@ -495,16 +496,16 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
-
+				
 				// clear all listenner
 				ActionListener[] listeners = submitButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					submitButton.removeActionListener(listener);
-				}
-				listeners = clearButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					clearButton.removeActionListener(listener);
-				}
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				// Scanner in = new Scanner(System.in);
 				// String gamepieceName = in.next();
 				submitButton.addActionListener(new SubmitListener());
@@ -515,7 +516,6 @@ public class Frame extends JFrame {
 			class SubmitListener implements ActionListener {
 				private FetchGamers info;
 				private int done;
-
 				public SubmitListener() {
 					info = new FetchGamers("", "", "", "");
 					done = 0;
@@ -525,23 +525,23 @@ public class Frame extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
-					if (done == 0) {
-						info.name = text1.getText();
-						label1.setText("Hi " + info.name + ", please type your desired username.");
-						done = 1;
-						text1.setText("");
-					} else if (done == 1) {
+					if(done == 0) {
+					info.name = text1.getText();
+					label1.setText("Hi "+ info.name + ", please type your desired username.");
+					done = 1;
+					text1.setText("");
+					}else if(done == 1) {
 						info.username = text1.getText();
 						text1.setText("__-__-____");
-						label1.setText(info.name + ", please input your Date of Birth, as MM-DD-YYYY");
+						label1.setText(info.name + ", please now input your Date of Birth, as MM-DD-YYYY");
 						done = 2;
 						text1.setText("");
-					} else if (done == 2) {
+					}else if(done == 2) {
 						info.dob = text1.getText();
 						label1.setText("Finally, please type your email.");
 						done = 3;
 						text1.setText("");
-					} else {
+					}else {
 						info.email = text1.getText();
 						InsertGamerService.insertGamer(info);
 						reset();
@@ -661,16 +661,24 @@ public class Frame extends JFrame {
 			}
 
 		}
+			class ClearListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					text1.setText("");
+				}
+
+			}
+	
 		class UpdateGamerListener implements ActionListener {
 			private UpdateGamerService UpdateGamerService;
-
+	
 			public UpdateGamerListener(UpdateGamerService updateGamerService) {
 				this.UpdateGamerService = updateGamerService;
 			}
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// add a new gamer (pre-defined, eventually should take from textboxes)
 				reset();
 				prepareBasicText();
 				label1.setText("Please input your name");
@@ -679,16 +687,16 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
-
+				
 				// clear all listenner
 				ActionListener[] listeners = submitButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					submitButton.removeActionListener(listener);
-				}
-				listeners = clearButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					clearButton.removeActionListener(listener);
-				}
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				submitButton.addActionListener(new SubmitListener());
 				clearButton.addActionListener(new ClearListener());
 			}
@@ -696,7 +704,6 @@ public class Frame extends JFrame {
 			class SubmitListener implements ActionListener {
 				private FetchGamers info;
 				private int done;
-
 				public SubmitListener() {
 					info = new FetchGamers("", "", "", "");
 					done = 0;
@@ -706,49 +713,49 @@ public class Frame extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
-					if (done == 0) {
-						int test = UpdateGamerService.getGamer(text1.getText());
-						if (test == 1) {
+					if(done == 0) {
+					int test = UpdateGamerService.getGamer(text1.getText());
+						if(test == 1) {
 							info.name = text1.getText();
-							label1.setText("Hi " + info.name
-									+ ", please type your desired new username, or leave it blank to not change it.");
+							label1.setText("Hi "+ info.name + ", please type your desired new username, or leave it blank to not change it.");
 							done = 1;
 							text1.setText("");
-						} else if (test == 0) {
+						}
+						else if(test == 0) {
 							done = 0;
-							label1.setText(
-									"<html> The name you have entered is not in our system. <br>Please check your name for typos or create a new user.");
+							label1.setText("<html> The name you have entered is not in our system. <br>Please check your name for typos or create a new user.");
 							text1.setText("");
-
-						} else if (test == -1) {
+							
+						}
+						else if(test == -1){
 							done = 0;
 							reset();
 							label1.setText("There has been a mistake. Please reload this page.");
 							buttonPanel.add(label1);
 						}
-					} else if (done == 1) {
+					}
+					else if(done == 1) {
 						info.username = text1.getText();
 						text1.setText("");
-						label1.setText(info.name
-								+ ", please now input your new Date of Birth, as MM-DD-YYYY, or leave it blank to not change it.");
+						label1.setText(info.name + ", please now input your new Date of Birth, as MM-DD-YYYY, or leave it blank to not change it.");
 						done = 2;
 						text1.setText("");
-					} else if (done == 2) {
+					}else if(done == 2) {
 						info.dob = text1.getText();
 						label1.setText("Finally, please type your new email, or leave it blank to not change it.");
 						done = 3;
 						text1.setText("");
-					} else {
+					}else {
 						info.email = text1.getText();
-						UpdateGamerService.insertGamer(info);
-						reset();
-						buttonPanel.add(label0);
-						label0.setText("Update successful!");
-						frame.invalidate();
-						frame.validate();
-						frame.repaint();
-						done = 0;
-						text1.setText("");
+					UpdateGamerService.insertGamer(info);
+					reset();
+					buttonPanel.add(label0);
+					label0.setText("Add successful! Welcome to the system " + info.username);
+					frame.invalidate();
+					frame.validate();
+					frame.repaint();
+					done = 0;
+					text1.setText("");
 					}
 				}
 
@@ -767,7 +774,7 @@ public class Frame extends JFrame {
 		class GetGameListener implements ActionListener {
 			private GamerService gamerService;
 			// private JTable table;
-			// private DefaultTableModel tableModel;
+			// private DefaultTableModel tableModel; 
 			// not used code above.
 
 			public GetGameListener(GamerService gamerS) {
@@ -781,7 +788,7 @@ public class Frame extends JFrame {
 				// String superString = "";
 				ArrayList<String> strings = this.gamerService.getAllGameNames();
 				StringBuilder bob = new StringBuilder();
-				bob.append("<html>Game Name<br>");
+				bob.append("<html>Game Name");
 				for (String string : strings) {
 					bob.append(string + "<br>");
 				}
@@ -800,56 +807,15 @@ public class Frame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				prepareBasicText();
-				label1.setText("Input Game to get pieces for");
-				frame.invalidate();
-				frame.validate();
-				frame.repaint();
-				buttonPanel.add(submitButton);
-				buttonPanel.add(clearButton);
-
-				// clear all listeners
-				ActionListener[] listeners = submitButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					submitButton.removeActionListener(listener);
+				reset();
+				buttonPanel.add(label0);
+				TwinStringList strings = this.gamerService.getAllGamePieces();
+				StringBuilder bob = new StringBuilder();
+				bob.append("<html>Game Name | Gamepiece Name<br>");
+				for (int i = 0; i < strings.first.size(); i++) {
+					bob.append(strings.second.get(i) + " | " + strings.first.get(i) + "<br>");
 				}
-				listeners = clearButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					clearButton.removeActionListener(listener);
-				}
-				submitButton.addActionListener(new SubmitListener(gamerService));
-				clearButton.addActionListener(new ClearListener());
-			}
-
-			class SubmitListener implements ActionListener {
-				private GamerService gamerService;
-
-				public SubmitListener(GamerService gs) {
-					this.gamerService = gs;
-				}
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					String input = text1.getText();
-					reset();
-					buttonPanel.add(label0);
-					ArrayList<String> strings = this.gamerService.getGamePiecesByGame(input);
-					StringBuilder bob = new StringBuilder();
-					bob.append("<html>Gamepiece Name<br>");
-					for (int i = 0; i < strings.size(); i++) {
-						bob.append(strings.get(i) + "<br>");
-					}
-					label0.setText(bob.toString());
-				}
-			}
-
-			class ClearListener implements ActionListener {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					text1.setText("");
-				}
-
+				label0.setText(bob.toString());
 			}
 
 		}
@@ -865,22 +831,22 @@ public class Frame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				prepareBasicText();
-				label1.setText("Input Username to search");
+				label1.setText("Input Username to search by");
 				frame.invalidate();
 				frame.validate();
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
-
+				
 				// clear all listenner
 				ActionListener[] listeners = submitButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					submitButton.removeActionListener(listener);
-				}
-				listeners = clearButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					clearButton.removeActionListener(listener);
-				}
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				submitButton.addActionListener(new SubmitListener(gamerService));
 				clearButton.addActionListener(new ClearListener());
 			}
@@ -963,16 +929,16 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
-
+				
 				// clear all listenner
 				ActionListener[] listeners = submitButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					submitButton.removeActionListener(listener);
-				}
-				listeners = clearButton.getActionListeners();
-				for (ActionListener listener : listeners) {
-					clearButton.removeActionListener(listener);
-				}
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				// Scanner in = new Scanner(System.in);
 				// String gamepieceName = in.next();
 				submitButton.addActionListener(new SubmitListener());
@@ -997,6 +963,7 @@ public class Frame extends JFrame {
 				}
 			}
 
+
 			class ClearListener implements ActionListener {
 
 				@Override
@@ -1005,8 +972,8 @@ public class Frame extends JFrame {
 				}
 
 			}
-
 		}
+		
 
 		this.setResizable(true);
 		this.add(buttonPanel, BorderLayout.CENTER);
@@ -1044,13 +1011,13 @@ public class Frame extends JFrame {
 					for (FetchGamers gamer : fetched) {
 						// this.tableModel.addRow(new Object[] {gamer.username, gamer.name, gamer.email,
 						// gamer.dob});
-						bob.append(
-								gamer.username + " | " + gamer.name + " | " + gamer.email + " | " + gamer.dob + "<br>					
-					
-;
-
+						bob.append(gamer.username + " | " + gamer.name + " | "
+								+ gamer.email + " | " + gamer.dob + "<br>");
+				
 					}
-
+				
+					
+					
 					reset();
 					buttonPanel.add(label0);
 					label0.setText(bob.toString());
@@ -1058,8 +1025,11 @@ public class Frame extends JFrame {
 					frame.validate();
 					frame.repaint();
 //					this.table.update(getGraphics());
-				}		this.goButton.addActionListener(new GoListener(this.dropDown, this.gamerService, this.displayTable, tableModel));
-tableModel));
+					
+				}
+			}
+		}
+		this.goButton.addActionListener(new GoListener(this.dropDown, this.gamerService, this.displayTable, tableModel));
 		this.addButton.addActionListener(new AddListener(insertGamerService));
 		this.getgameButton.addActionListener(new GetGameListener(gamerService));
 		this.getgamepieceButton.addActionListener(new GetGamePieceListener(gamerService));
