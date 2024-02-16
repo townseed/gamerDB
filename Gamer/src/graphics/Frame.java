@@ -230,6 +230,17 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
+				
+				// clear all listenner
+				ActionListener[] listeners = submitButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
+		   
 				submitButton.addActionListener(new DeleteSubmitListener());
 				clearButton.addActionListener(new ClearListener());
 			}
@@ -286,6 +297,16 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
+				
+				// clear all listenner
+				ActionListener[] listeners = submitButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				// Scanner in = new Scanner(System.in);
 				// String gamepieceName = in.next();
 				submitButton.addActionListener(new DeleteSubmitListener());
@@ -343,6 +364,16 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
+				
+				// clear all listenner
+				ActionListener[] listeners = submitButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				// Scanner in = new Scanner(System.in);
 				// String gamepieceName = in.next();
 				submitButton.addActionListener(new DeleteSubmitListener());
@@ -403,6 +434,16 @@ public class Frame extends JFrame {
 				buttonPanel.add(text2);
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
+				
+				// clear all listenner
+				ActionListener[] listeners = submitButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				// Scanner in = new Scanner(System.in);
 				// String gamepieceName = in.next();
 				submitButton.addActionListener(new DeleteSubmitListener());
@@ -461,6 +502,16 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
+				
+				// clear all listenner
+				ActionListener[] listeners = submitButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				// Scanner in = new Scanner(System.in);
 				// String gamepieceName = in.next();
 				submitButton.addActionListener(new SubmitListener());
@@ -540,6 +591,16 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
+				
+				// clear all listenner
+				ActionListener[] listeners = submitButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				// Scanner in = new Scanner(System.in);
 				// String gamepieceName = in.next();
 				submitButton.addActionListener(new SubmitListener());
@@ -622,6 +683,16 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
+				
+				// clear all listenner
+				ActionListener[] listeners = submitButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				submitButton.addActionListener(new SubmitListener());
 				clearButton.addActionListener(new ClearListener());
 			}
@@ -762,6 +833,16 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
+				
+				// clear all listenner
+				ActionListener[] listeners = submitButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				submitButton.addActionListener(new SubmitListener(gamerService));
 				clearButton.addActionListener(new ClearListener());
 			}
@@ -844,6 +925,16 @@ public class Frame extends JFrame {
 				frame.repaint();
 				buttonPanel.add(submitButton);
 				buttonPanel.add(clearButton);
+				
+				// clear all listenner
+				ActionListener[] listeners = submitButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	submitButton.removeActionListener(listener);
+		        }
+		        listeners = clearButton.getActionListeners();
+		        for (ActionListener listener : listeners) {
+		        	clearButton.removeActionListener(listener);
+		        }
 				// Scanner in = new Scanner(System.in);
 				// String gamepieceName = in.next();
 				submitButton.addActionListener(new SubmitListener());
@@ -920,7 +1011,14 @@ public class Frame extends JFrame {
 								+ gamer.email + " | " + gamer.dob + "<br>");
 				
 					}
+					
+					
+					reset();
+					buttonPanel.add(label0);
 					label0.setText(bob.toString());
+					frame.invalidate();
+					frame.validate();
+					frame.repaint();
 //					this.table.update(getGraphics());
 				}
 			}
