@@ -592,24 +592,30 @@ public class Frame extends JFrame {
 					// TODO Auto-generated method stub
 					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
 					if(done == 0) {
-					info.name = text1.getText();
-					label1.setText("Hi "+ info.name + ", please type your desired username.");
-					done = 1;
-					text1.setText("");
-					}else if(done == 1) {
+					int test = UpdateGamepieceService.getGamer(text1.getText());
+						if(test == 1) {
+							info.name = text1.getText();
+							label1.setText("Hi "+ info.name + ", please type your desired new game piece attribute name, or leave it blank to not change it.");
+							done = 1;
+							text1.setText("");
+						}
+						else if(test == 0) {
+							done = 0;
+							label1.setText("<html> The game piece name you have entered is not in our system. <br>Please check your name for typos or create a new user.");
+							text1.setText("");
+							
+						}
+						else if(test == -1){
+							done = 0;
+							reset();
+							label1.setText("There has been a mistake. Please reload this page.");
+							buttonPanel.add(label1);
+						}
+					}
+					else if(done == 1) {
 						info.username = text1.getText();
-						text1.setText("__-__-____");
-						label1.setText(info.name + ", please now input your Date of Birth, as MM-DD-YYYY");
-						done = 2;
-						text1.setText("");
-					}else if(done == 2) {
-						info.dob = text1.getText();
-						label1.setText("Finally, please type your email.");
-						done = 3;
-						text1.setText("");
-					}else {
-						info.email = text1.getText();
-					UpdateGamepieceService.insertOneGamePiece(info.email);
+						UpdateGamepieceService.insertOneGamePiece(info.username);
+					}
 					reset();
 					buttonPanel.add(label0);
 					label0.setText("Add successful! Welcome to the system " + info.username);
@@ -620,9 +626,6 @@ public class Frame extends JFrame {
 					text1.setText("");
 					}
 				}
-
-			}
-
 			class ClearListener implements ActionListener {
 
 				@Override
@@ -871,8 +874,8 @@ public class Frame extends JFrame {
 					frame.validate();
 					frame.repaint();
 				}
-
 			}
+
 
 			class ClearListener implements ActionListener {
 
