@@ -33,6 +33,8 @@ import services.LoginService;
 import services.PentaStringList;
 import services.RegisterService;
 import services.TwinStringList;
+import services.UpdateGamepieceService;
+import services.UpdateGamerService;
 
 public class Frame extends JFrame {
 	public static final int WIDTH = 800;
@@ -94,6 +96,8 @@ public class Frame extends JFrame {
 	private JLabel spanLabel6 = new JLabel(
 			"-                                                                                                                                                                                                                                                    -");
 	private JFrame frame = this;
+	private UpdateGamepieceService updateGamepieceService;
+	private UpdateGamerService updateGamerService;
 
 	public Frame() {
 		tableModel = new DefaultTableModel();
@@ -107,13 +111,11 @@ public class Frame extends JFrame {
 		this.deleteGamePieceButton = new JButton("Remove a Game Piece");
 		getLeaderboardButton = new JButton("View the Leaderboard");
 		updateGamerButton = new JButton("Update a Gamer");
-		updateGameButton = new JButton("Update a Game");
+		// updateGameButton = new JButton("Update a Game"); = not enough information
 		updateGamePieceButton = new JButton("Update a Game Piece");
 		
 		label0 = new JLabel("Output");
-		label0.setText(
-				"Welcome to the Gamer Interface!");
-		// If you haven't already, please log in to ensure a secure environment!");
+		label0.setText("Welcome to the Gamer Interface!");
 		label1 = new JLabel("Test");
 		label1.setText("Label Text");
 		label2 = new JLabel("Test");
@@ -144,6 +146,8 @@ public class Frame extends JFrame {
 		this.deleteGamerButton = new JButton("Remove one Gamer");
 		this.deleteGameButton = new JButton("Remove one Game");
 		this.deleteMatchButton = new JButton("Remove one Match");
+		this.updateGamepieceService = new UpdateGamepieceService(connection);
+		this.updateGamerService = new UpdateGamerService(connection);
 //		this.tablePane = new JScrollPane(this.displayTable);
 //		this.displayTable.setFillsViewportHeight(true);
 //		this.add(tablePane, BorderLayout.CENTER);
@@ -510,22 +514,194 @@ public class Frame extends JFrame {
 					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
 					if(done == 0) {
 					info.name = text1.getText();
-					label1.setText("Hi "+ info.name + " please choose a userName.");
+					label1.setText("Hi "+ info.name + ", please type your desired username.");
 					done = 1;
 					text1.setText("");
 					}else if(done == 1) {
 						info.username = text1.getText();
-						label1.setText(info.name + " please input your Date of Birth");
+						text1.setText("__-__-____");
+						label1.setText(info.name + ", please now input your Date of Birth, as MM-DD-YYYY");
 						done = 2;
 						text1.setText("");
 					}else if(done == 2) {
 						info.dob = text1.getText();
-						label1.setText("Just one more thing, your email.");
+						label1.setText("Finally, please type your email.");
 						done = 3;
 						text1.setText("");
 					}else {
 						info.email = text1.getText();
 					InsertGamerService.insertGamer(info);
+					reset();
+					buttonPanel.add(label0);
+					label0.setText("Add successful! Welcome to the system " + info.username);
+					frame.invalidate();
+					frame.validate();
+					frame.repaint();
+					done = 0;
+					text1.setText("");
+					}
+				}
+
+			}
+
+			class ClearListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					text1.setText("");
+				}
+
+			}
+
+		}
+		class UpdateGamepieceListener implements ActionListener {
+			private UpdateGamepieceService UpdateGamepieceService;
+
+			public UpdateGamepieceListener(UpdateGamepieceService updateGamepieceService) {
+				this.UpdateGamepieceService = updateGamepieceService;
+			}
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// add a new gamer (pre-defined, eventually should take from textboxes)
+				reset();
+				prepareBasicText();
+				label1.setText("Input new Gamer Name");
+				frame.invalidate();
+				frame.validate();
+				frame.repaint();
+				buttonPanel.add(submitButton);
+				buttonPanel.add(clearButton);
+				// Scanner in = new Scanner(System.in);
+				// String gamepieceName = in.next();
+				submitButton.addActionListener(new SubmitListener());
+				clearButton.addActionListener(new ClearListener());
+				// this.InsertGame_GamepieceService.insertOneGamePiece(gamepieceName);
+			}
+
+			class SubmitListener implements ActionListener {
+				private FetchGamers info;
+				private int done;
+				public SubmitListener() {
+					info = new FetchGamers("", "", "", "");
+					done = 0;
+				}
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
+					if(done == 0) {
+					info.name = text1.getText();
+					label1.setText("Hi "+ info.name + ", please type your desired username.");
+					done = 1;
+					text1.setText("");
+					}else if(done == 1) {
+						info.username = text1.getText();
+						text1.setText("__-__-____");
+						label1.setText(info.name + ", please now input your Date of Birth, as MM-DD-YYYY");
+						done = 2;
+						text1.setText("");
+					}else if(done == 2) {
+						info.dob = text1.getText();
+						label1.setText("Finally, please type your email.");
+						done = 3;
+						text1.setText("");
+					}else {
+						info.email = text1.getText();
+					UpdateGamepieceService.insertOneGamePiece(info.email);
+					reset();
+					buttonPanel.add(label0);
+					label0.setText("Add successful! Welcome to the system " + info.username);
+					frame.invalidate();
+					frame.validate();
+					frame.repaint();
+					done = 0;
+					text1.setText("");
+					}
+				}
+
+			}
+
+			class ClearListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					text1.setText("");
+				}
+
+			}
+
+		}
+		class UpdateGamerListener implements ActionListener {
+			private UpdateGamerService UpdateGamerService;
+	
+			public UpdateGamerListener(UpdateGamerService updateGamerService) {
+				this.UpdateGamerService = updateGamerService;
+			}
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// add a new gamer (pre-defined, eventually should take from textboxes)
+				reset();
+				prepareBasicText();
+				label1.setText("Please input your name");
+				frame.invalidate();
+				frame.validate();
+				frame.repaint();
+				buttonPanel.add(submitButton);
+				buttonPanel.add(clearButton);
+				submitButton.addActionListener(new SubmitListener());
+				clearButton.addActionListener(new ClearListener());
+			}
+
+			class SubmitListener implements ActionListener {
+				private FetchGamers info;
+				private int done;
+				public SubmitListener() {
+					info = new FetchGamers("", "", "", "");
+					done = 0;
+				}
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					// used https://www.geeksforgeeks.org/java-swing-jtextfield/
+					if(done == 0) {
+					int test = UpdateGamerService.getGamer(text1.getText());
+						if(test == 1) {
+							info.name = text1.getText();
+							label1.setText("Hi "+ info.name + ", please type your desired new username, or leave it blank to not change it.");
+							done = 1;
+							text1.setText("");
+						}
+						else if(test == 0) {
+							done = 0;
+							label1.setText("<html> The name you have entered is not in our system. <br>Please check your name for typos or create a new user.");
+							text1.setText("");
+							
+						}
+						else if(test == -1){
+							done = 0;
+							reset();
+							label1.setText("There has been a mistake. Please reload this page.");
+							buttonPanel.add(label1);
+						}
+					}
+					else if(done == 1) {
+						info.username = text1.getText();
+						text1.setText("");
+						label1.setText(info.name + ", please now input your new Date of Birth, as MM-DD-YYYY, or leave it blank to not change it.");
+						done = 2;
+						text1.setText("");
+					}else if(done == 2) {
+						info.dob = text1.getText();
+						label1.setText("Finally, please type your new email, or leave it blank to not change it.");
+						done = 3;
+						text1.setText("");
+					}else {
+						info.email = text1.getText();
+					UpdateGamerService.insertGamer(info);
 					reset();
 					buttonPanel.add(label0);
 					label0.setText("Add successful! Welcome to the system " + info.username);
@@ -765,6 +941,8 @@ public class Frame extends JFrame {
 		this.deleteGamePieceButton.addActionListener(new DeleteGamepieceListener(deleteGamepieceService));
 		this.deleteGameButton.addActionListener(new DeleteGameListener(deleteGameService));
 		this.deleteMatchButton.addActionListener(new DeleteMatchListener(deleteMatchService));
+		this.updateGamePieceButton.addActionListener(new UpdateGamepieceListener(updateGamepieceService));
+		this.updateGamerButton.addActionListener(new UpdateGamerListener(updateGamerService));
 	}
 
 	public void run() {
