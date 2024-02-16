@@ -42,17 +42,17 @@ public class UpdateGamerService {
 	public boolean insertGamer(FetchGamers gamerInfo) {
 		try {
 			if(gamerInfo.username != null && gamerInfo.username.length() >= 1) {
-				String query = "update dbo.gamer set username = '" + gamerInfo.username + "' where name = '" + gamerInfo.name + "' go";
+				String query = "update dbo.gamer set Username = '" + gamerInfo.username + "' where name = '" + gamerInfo.name + "'";
 				CallableStatement statement = this.dbService.getConnection().prepareCall(query);
 				statement.execute();
 			}
 			if(gamerInfo.email != null && gamerInfo.email.length() >= 1) {
-				String query = "update dbo.gamer set email = '" + gamerInfo.email + "' where name = '" + gamerInfo.name + "' go";
+				String query = "update dbo.gamer set email = '" + gamerInfo.email + "' where name = '" + gamerInfo.name + "'";
 				CallableStatement statement = this.dbService.getConnection().prepareCall(query);
 				statement.execute();
 			}
 			if(gamerInfo.dob != null && gamerInfo.dob.length() >= 1) {
-				String query = "update dbo.gamer set dob = '" + gamerInfo.dob + "' where name = '" + gamerInfo.name + "' go";
+				String query = "update dbo.gamer set DateOfBirth = '" + gamerInfo.dob + "' where name = '" + gamerInfo.name + "'";
 				CallableStatement statement = this.dbService.getConnection().prepareCall(query);
 				statement.execute();
 			}
