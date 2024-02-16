@@ -33,13 +33,13 @@ public class DeleteGamerService {
 			}
 			else {
 				System.out.println("from gamePieceService: Error in SQL execution");
+				return false;
 			}
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			return false;
 		}
-		return true;
 	}
 
 }
