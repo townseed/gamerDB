@@ -178,5 +178,34 @@ public class GamerService {
 			return new PentaStringList();
 		}
 	}
+	public PentaStringList getLeaderboard(){
+		PentaStringList results = new PentaStringList();
+		try {
+			Statement stmt = this.dbService.getConnection().createStatement();
+			String query = "select date, result, score, game.name as [Game Name], gamepiece.name as [Game Piece] from match join playedIn on match.id = playedIn.matchID join game on match.gameID = game.ID join gamepiece on playedIn.gamepieceID = gamepiece.ID\r\n"
+					+ "order by score desc"; 
+			// later replace it with sp.
+			ResultSet rs = stmt.executeQuery(query);
+			int gameIndex = rs.findColumn("Game Name");
+			int pieceIndex = rs.findColumn("Game Piece");
+			int dateIndex = rs.findColumn("date");
+			int resultIndex = rs.findColumn("result");
+			int scoreIndex = rs.findColumn("score");
+			while (rs.next()) {
+				results.first.add(rs.getString(gameIndex));
+				results.second.add(rs.getString(pieceIndex));
+				results.third.add(rs.getString(dateIndex));
+				results.fourth.add(rs.getString(resultIndex));
+				results.fith.add(rs.getString(scoreIndex));
+			}
+//			System.out.print(gamerNames);
+			return results;
+		}
+		catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "Failed to retrieve gamer results.");
+			ex.printStackTrace();
+			return new PentaStringList();
+		}
+	}
 	
 }
