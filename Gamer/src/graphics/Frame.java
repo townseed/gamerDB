@@ -113,7 +113,7 @@ public class Frame extends JFrame {
 		updateGamerButton = new JButton("Update a Gamer");
 		// updateGameButton = new JButton("Update a Game"); = not enough information
 		updateGamePieceButton = new JButton("Update a Game Piece");
-
+		
 		label0 = new JLabel("Output");
 		label0.setText("Welcome to the Gamer Interface!");
 		label1 = new JLabel("Test");
@@ -252,13 +252,14 @@ public class Frame extends JFrame {
 					buttonPanel.add(label0);
 					if (DeleteGamerService.deleteGamer(text)) {
 						label0.setText("<html>The deletion of Gamer \"" + text + "\"was successful!");
-					} else {
+					}
+					else {
 						label0.setText("<html>Error: Gamer \"" + text + "\" was not found in the database.");
 					}
 					frame.invalidate();
 					frame.validate();
-					frame.repaint();
-				}
+					frame.repaint();					}			
+			}
 			}
 
 			class ClearListener implements ActionListener {
@@ -1044,7 +1045,9 @@ public class Frame extends JFrame {
 						// this.tableModel.addRow(new Object[] {gamer.username, gamer.name, gamer.email,
 						// gamer.dob});
 						bob.append(
-								gamer.username + " | " + gamer.name + " | " + gamer.email + " | " + gamer.dob + "<br>");
+								gamer.username + " | " + gamer.name + " | " + gamer.email + " | " + gamer.dob + "<br>					
+					
+;
 
 					}
 
@@ -1055,12 +1058,8 @@ public class Frame extends JFrame {
 					frame.validate();
 					frame.repaint();
 //					this.table.update(getGraphics());
-				}
-			}
-		}
-
-		this.goButton
-				.addActionListener(new GoListener(this.dropDown, this.gamerService, this.displayTable, tableModel));
+				}		this.goButton.addActionListener(new GoListener(this.dropDown, this.gamerService, this.displayTable, tableModel));
+tableModel));
 		this.addButton.addActionListener(new AddListener(insertGamerService));
 		this.getgameButton.addActionListener(new GetGameListener(gamerService));
 		this.getgamepieceButton.addActionListener(new GetGamePieceListener(gamerService));
